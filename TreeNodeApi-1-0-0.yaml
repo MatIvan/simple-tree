@@ -1,0 +1,187 @@
+swagger: "2.0"
+info:
+  description: "API for wortk with simple tree structure."
+  version: "1.0.0"
+  title: "TreeNodeApi"
+host: "localhost:8181"
+basePath: "/v1"
+tags:
+- name: "nodes"
+  description: "Everything about tree's nodes"
+schemes:
+- "http"
+paths:
+  /nodes:
+    get:
+      tags:
+      - "nodes"
+      summary: "Get all nodes from DB"
+      description: "Return all Node objects from data base"
+      operationId: "getAllNodes"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Node"
+        "404":
+          description: "RootNodes not found"
+    post:
+      tags:
+      - "nodes"
+      summary: "Add a new node to the tree"
+      description: ""
+      operationId: "addNode"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Node object that needs to be added to the tree"
+        required: true
+        schema:
+          $ref: "#/definitions/Node"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Node"
+        "405":
+          description: "Invalid input"
+  /nodes/{nodeId}:
+    get:
+      tags: 
+      - "nodes"
+      summary: "Get node by id"
+      description: ""
+      operationId: "getNode"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: "ID of node"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Node"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Node not found"
+    put:
+      tags:
+      - "nodes"
+      summary: "Update an existing node"
+      description: ""
+      operationId: "updateNode"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: "ID of node that needs to de deleted"
+        required: true
+        type: "integer"
+      - name: "body"
+        in: "body"
+        description: "Node object that needs to be updated in the tree"
+        required: true
+        schema:
+          $ref: "#/definitions/Node"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Node"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Node not found"
+        "405":
+          description: "Validation exception"
+    delete:
+      tags:
+      - "nodes"
+      summary: "Deletes a node"
+      description: "Deletes a node and all included children recursivity"
+      operationId: "deleteNode"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: "ID of node that needs to de deleted"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Node not found"
+  /nodes/{nodeId}/children/:
+    get:
+      tags:
+      - "nodes"
+      summary: "Find children nodes for node by ID"
+      description: "return list of Node objects"
+      operationId: "getChildren"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: "ID of parent node, whos children will be returned"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Node"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Node not found"
+  /nodes/root:
+    get:
+      tags:
+      - "nodes"
+      summary: "Get root-nodes"
+      description: "Return one or more Node objects with parentId == null"
+      operationId: "getRootNode"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Node"
+        "404":
+          description: "RootNodes not found"
+definitions:
+  Node:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      parentId:
+        type: "integer"
+      name:
+        type: "string"
+        example: "node-1"
+      ip:
+        type: "string"
+        example: "127.0.0.1"
+      port:
+        type: "integer"
