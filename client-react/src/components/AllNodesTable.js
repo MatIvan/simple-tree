@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { TreeNodeService } from "../service/TreeNodeService"
 import styles from '../styles/AllNodesTable.module.css';
 
 class AllNodesTable extends Component {
@@ -14,23 +14,21 @@ class AllNodesTable extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8181/v1/nodes")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        error: null,
-                        nodes: result,
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error: error,
-                        nodes: [],
-                    });
+        TreeNodeService.getAll()
+            .then(result => {
+                this.setState({
+                    isLoaded: true,
+                    error: null,
+                    nodes: result,
                 });
+            })
+            .catch(error => {
+                this.setState({
+                    isLoaded: true,
+                    error: error,
+                    nodes: [],
+                });
+            });
     }
 
     render() {
