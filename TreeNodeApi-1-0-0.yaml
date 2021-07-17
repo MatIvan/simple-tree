@@ -157,7 +157,7 @@ paths:
       - "nodes"
       summary: "Get root-nodes"
       description: "Return one or more Node objects with parentId == null"
-      operationId: "getRootNode"
+      operationId: "getRootNodes"
       produces:
       - "application/json"
       responses:

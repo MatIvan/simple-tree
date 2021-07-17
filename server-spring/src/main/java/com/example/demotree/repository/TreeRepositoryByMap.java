@@ -23,6 +23,8 @@ public class TreeRepositoryByMap implements TreeRepository {
     public void constructor() {
         treeMap = new ConcurrentHashMap<Integer, TreeNode>();
         insert(new TreeNode(null, null, "rootNode", "127.0.0.1", 1111));
+        insert(new TreeNode(null, 0, "node-1", "127.0.1.1", 11));
+        insert(new TreeNode(null, 0, "node-2", "127.0.1.2", 12));
     }
 
     private Integer nextId() {
@@ -30,10 +32,10 @@ public class TreeRepositoryByMap implements TreeRepository {
     }
 
     @Override
-    public TreeNode getRoot() {
+    public List<TreeNode> getRoot() {
         return treeMap.values().stream()
                 .filter(TreeNode::isParent)
-                .findAny().get();
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -16,7 +16,7 @@ public class TreeService {
     @Qualifier("TreeRepositoryByMap")
     TreeRepository treeRepository;
 
-    public TreeNode getRoot() {
+    public List<TreeNode> getRoot() {
         return treeRepository.getRoot();
     }
 

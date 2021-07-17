@@ -6,7 +6,7 @@ import com.example.demotree.entity.TreeNode;
 
 public interface TreeRepository {
 
-    TreeNode getRoot();
+    List<TreeNode> getRoot();
 
     TreeNode getNode(Integer id);
 

@@ -36,7 +36,7 @@ public class TreeNodeController {
     }
 
     @GetMapping("/root")
-    public TreeNode getRootNode() {
+    public List<TreeNode> getRootNodes() {
         return treeService.getRoot();
     }
 
