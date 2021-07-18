@@ -11,6 +11,7 @@ class Tree extends Component {
             isLoaded: true,
             error: null,
             rootNodes: [],
+            selectedNodeId: null,
         };
     }
 
@@ -21,6 +22,7 @@ class Tree extends Component {
                     isLoaded: true,
                     error: null,
                     rootNodes: result,
+                    selectedNodeId: null,
                 });
             })
             .catch(error => {
@@ -28,12 +30,22 @@ class Tree extends Component {
                     isLoaded: true,
                     error: error,
                     rootNodes: [],
+                    selectedNodeId: null,
                 });
             });
     }
 
+    onNodeItemClick(nodeId) {
+        if (nodeId != this.state.selectedNodeId) {
+            this.setState({
+                selectedNodeId: nodeId
+            });
+        }
+        this.props.onNodeItemSelected(nodeId);
+    }
+
     render() {
-        const { error, isLoaded, rootNodes } = this.state;
+        const { error, isLoaded, rootNodes, selectedNodeId } = this.state;
         let data;
 
         if (error) {
@@ -42,7 +54,11 @@ class Tree extends Component {
             data = (<div>Loading...</div>);
         } else {
             data = rootNodes.map(node => (
-                <NodeItem key={node.id} node={node} />
+                <NodeItem
+                    key={node.id}
+                    node={node}
+                    onNodeItemClick={this.onNodeItemClick.bind(this)}
+                    selectedNodeId={selectedNodeId} />
             ));
         }
 

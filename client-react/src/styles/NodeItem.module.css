@@ -8,6 +8,10 @@
 }
 
 .infoBox:hover {
+    background-color: blue;
+}
+
+.infoBoxSelected {
     background-color: cornflowerblue;
 }
 

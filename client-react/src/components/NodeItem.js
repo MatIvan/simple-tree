@@ -56,11 +56,14 @@ class NodeItem extends Component {
     }
 
     onNodeItemClick() {
+        this.props.onNodeItemClick(this.props.node.id);
+    }
+
+    onCollapseClick() {
         const prev = this.state.isCollapsed;
         this.setState({
             isCollapsed: !prev,
         });
-        console.log(this.state.isCollapsed);
     }
 
     render() {
@@ -73,16 +76,23 @@ class NodeItem extends Component {
             data = (<div>Loading...</div>);
         } else {
             data = nodes.map(node => (
-                <NodeItem key={node.id} node={node} />
+                <NodeItem
+                    key={node.id}
+                    node={node}
+                    onNodeItemClick={this.props.onNodeItemClick}
+                    selectedNodeId={this.props.selectedNodeId} />
             ));
         }
 
         const nodeInfo = this.props.node;
         const buttonText = this.state.isCollapsed ? "+" : "-";
+        const isSelected = this.props.selectedNodeId == nodeInfo.id;
+        var infoBoxClasses = `${styles.infoBox} ${isSelected ? styles.infoBoxSelected : ""}`;
+
         return (
             <div className={styles.box}>
-                <div className={styles.infoBox} onClick={() => this.onNodeItemClick()}>
-                    <div className={styles.btnCollapse}>{buttonText}</div>
+                <div className={infoBoxClasses} onClick={() => this.onNodeItemClick()}>
+                    <div className={styles.btnCollapse} onClick={() => this.onCollapseClick()}>{buttonText}</div>
                     <div className={styles.lblName}>{nodeInfo.name}</div>
                 </div>
                 {data}

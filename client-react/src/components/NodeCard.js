@@ -14,9 +14,10 @@ class NodeCard extends Component {
     }
 
     render() {
+        const { selectedNodeId } = this.props;
         return (
             <div className={styles.box}>
-                NodeCard
+                NodeCard: {selectedNodeId}
             </div>
         );
     }
