@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { TreeNodeService } from "../service/TreeNodeService"
+import NodeCardTable from "./NodeCardTable"
+import NodeCardUI from "./NodeCardUI"
 import styles from '../styles/NodeCard.module.css';
 
 class NodeCard extends Component {
@@ -57,31 +59,8 @@ class NodeCard extends Component {
         } else {
             data = (
                 <div>
-                    <div className={styles.caption}>Selected node: </div>
-                    <table className={styles.tableNode}>
-                        <tbody>
-                            <tr>
-                                <td className={styles.fieldName}>id</td>
-                                <td>{node.id}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.fieldName}>parentId</td>
-                                <td>{node.parentId}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.fieldName}>name</td>
-                                <td>{node.name}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.fieldName}>ip</td>
-                                <td>{node.ip}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.fieldName}>port</td>
-                                <td>{node.port}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <NodeCardTable nodeInfo={node} />
+                    <NodeCardUI nodeId={node.id} />
                 </div>
             );
         }
