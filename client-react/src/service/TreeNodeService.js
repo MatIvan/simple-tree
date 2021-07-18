@@ -12,6 +12,10 @@ class TreeNodeServiceImpl {
         return this._rest("root", this._getRestOptions('GET'));
     }
 
+    getNode(nodeId) {
+        return this._rest(nodeId, this._getRestOptions('GET'));
+    }
+
     getChildren(parentId) {
         return this._rest(parentId + "/children", this._getRestOptions('GET'));
     }

@@ -4,3 +4,20 @@
     margin-left: 5px;
     padding: 5px;
 }
+
+.caption {
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.tableNode {
+    width: 100%;
+    margin-top: 14px;
+    margin-left: 10px;
+}
+
+.fieldName {
+    width: 30%;
+    font-weight: bold;
+}
