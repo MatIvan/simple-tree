@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { TreeNodeService } from "../service/TreeNodeService"
+import { TreeNodeService } from "../../service/TreeNodeService"
 import NodeCardTable from "./NodeCardTable"
 import NodeCardUI from "./NodeCardUI"
-import styles from '../styles/NodeCard.module.css';
+import styles from '../../styles/NodeCard.module.css';
 
 class NodeCard extends Component {
 

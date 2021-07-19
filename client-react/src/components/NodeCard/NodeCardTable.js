@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from '../styles/NodeCardTable.module.css';
+import styles from '../../styles/NodeCardTable.module.css';
 
 class NodeCardTable extends Component {
 

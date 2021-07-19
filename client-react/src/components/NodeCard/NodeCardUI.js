@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from '../styles/NodeCardUI.module.css';
+import styles from '../../styles/NodeCardUI.module.css';
 
 class NodeCardUI extends Component {
 

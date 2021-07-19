@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { TreeNodeService } from "../service/TreeNodeService"
 import Tree from "./Tree"
-import NodeCard from "./NodeCard"
-import NodePopupForm from "./NodePopupForm"
+import NodeCard from "./NodeCard/NodeCard"
+import NodeEditPresenter from "./NodeEdit/NodeEditPresenter"
 import styles from '../styles/TreeNodes.module.css';
 
 class TreeNodes extends Component {
@@ -11,7 +11,7 @@ class TreeNodes extends Component {
         super(props);
         this.state = {
             selectedNodeId: null,
-            nodePopupFormData: {
+            nodeEditData: {
                 visible: false,
                 nodeId: null,
                 parentId: null
@@ -35,35 +35,35 @@ class TreeNodes extends Component {
         let self = this;
         return {
             onEdit: (nodeId) => {
-                console.log("onEdit: ", nodeId);
-                this.setState({
-                    nodePopupFormData: {
-                        visible: true,
-                        nodeId: nodeId,
-                        parentId: null
-                    }
-                });
+                this._showNodeEdit(nodeId, null)
             },
             onDelete: (nodeId) => {
-                console.log("onDelete: ", nodeId);
+
             },
             onAddChild: (parentId) => {
-                console.log("onAddChild: ", parentId);
-                this.setState({
-                    nodePopupFormData: {
-                        visible: true,
-                        nodeId: null,
-                        parentId: nodeId
-                    }
-                });
+                this._showNodeEdit(null, parentId)
             }
         }
     }
 
-    onPopupCancel() {
-        console.log("onPopupCancel: ");
+    onNodeSaved() {
+        console.log("onNodeSaved");
+        this._hideNodeEdit();
+    }
+
+    _showNodeEdit(nodeId, parentId) {
         this.setState({
-            nodePopupFormData: {
+            nodeEditData: {
+                visible: true,
+                nodeId: nodeId,
+                parentId: parentId
+            }
+        });
+    }
+
+    _hideNodeEdit() {
+        this.setState({
+            nodeEditData: {
                 visible: false,
                 nodeId: null,
                 parentId: null
@@ -71,10 +71,9 @@ class TreeNodes extends Component {
         });
     }
 
-    onPopupSave() {
-        console.log("onPopupSave: ");
+    onNodeEditClose() {
         this.setState({
-            nodePopupFormData: {
+            nodeEditData: {
                 visible: false,
                 nodeId: null,
                 parentId: null
@@ -83,17 +82,21 @@ class TreeNodes extends Component {
     }
 
     render() {
-        const { selectedNodeId, nodePopupFormData } = this.state;
+        const { selectedNodeId, nodeEditData } = this.state;
         return (
             <div className={styles.box}>
-                <Tree onNodeItemSelected={this.onNodeItemSelected.bind(this)} />
-                <NodeCard selectedNodeId={selectedNodeId} handler={this.getHendler()} />
-                {nodePopupFormData.visible ?
-                    <NodePopupForm
-                        nodeId={nodePopupFormData.nodeId}
-                        parentId={nodePopupFormData.parentId}
-                        onSave={this.onPopupSave.bind(this)}
-                        onCancel={this.onPopupCancel.bind(this)}
+                <Tree
+                    onNodeItemSelected={this.onNodeItemSelected.bind(this)} />
+
+                <NodeCard
+                    selectedNodeId={selectedNodeId}
+                    handler={this.getHendler()} />
+
+                {nodeEditData.visible ?
+                    <NodeEditPresenter
+                        nodeEditData={nodeEditData}
+                        onSaved={this.onNodeSaved.bind(this)}
+                        onClose={this.onNodeEditClose.bind(this)}
                     />
                     : null
                 }
