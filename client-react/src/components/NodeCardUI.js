@@ -8,11 +8,12 @@ class NodeCardUI extends Component {
     }
 
     render() {
+        const { nodeId, handler } = this.props;
         return (
             <div className={styles.box}>
-                <button >Add child</button>
-                <button >Edit node</button>
-                <button >Delete</button>
+                <button onClick={() => handler.onAddChild(nodeId)}>Add child</button>
+                <button onClick={() => handler.onEdit(nodeId)}>Edit node</button>
+                <button onClick={() => handler.onDelete(nodeId)}>Delete</button>
             </div>
         );
     }

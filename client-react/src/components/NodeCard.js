@@ -60,7 +60,7 @@ class NodeCard extends Component {
             data = (
                 <div>
                     <NodeCardTable nodeInfo={node} />
-                    <NodeCardUI nodeId={node.id} />
+                    <NodeCardUI nodeId={node.id} handler={this.props.handler} />
                 </div>
             );
         }
