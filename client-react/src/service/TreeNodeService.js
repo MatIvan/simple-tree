@@ -29,7 +29,7 @@ class TreeNodeServiceImpl {
     }
 
     deleteNode(nodeId) {
-        return this._rest(node.id, this._getRestOptions('DELETE'));
+        return this._rest(nodeId, this._getRestOptions('DELETE'));
     }
 
     _rest(servlet, options) {
@@ -64,7 +64,6 @@ class TreeNodeServiceImpl {
     }
 
     _status(response) {
-        console.log("<<< ", response);
         if (response.status >= 200 && response.status < 300) {
             return Promise.resolve(response)
         } else {
@@ -73,7 +72,9 @@ class TreeNodeServiceImpl {
     }
 
     _json(response) {
-        return response.json()
+        return response.text().then(function (text) {
+            return text ? JSON.parse(text) : {}
+        });
     }
 
     _log(response) {

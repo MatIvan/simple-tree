@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { TreeNodeService } from "../service/TreeNodeService"
 import Tree from "./Tree"
 import NodeCard from "./NodeCard/NodeCard"
 import NodeEditPresenter from "./NodeEdit/NodeEditPresenter"
+import NodeDeleteForm from "./NodeDelete/NodeDeleteForm"
 import styles from '../styles/TreeNodes.module.css';
 
 class TreeNodes extends Component {
@@ -15,12 +15,12 @@ class TreeNodes extends Component {
                 visible: false,
                 nodeId: null,
                 parentId: null
+            },
+            deleteNodeData: {
+                visible: false,
+                nodeId: null
             }
         };
-    }
-
-    componentDidMount() {
-        //do nothing
     }
 
     onNodeItemSelected(nodeId) {
@@ -32,13 +32,12 @@ class TreeNodes extends Component {
     }
 
     getHendler() {
-        let self = this;
         return {
             onEdit: (nodeId) => {
                 this._showNodeEdit(nodeId, null)
             },
             onDelete: (nodeId) => {
-                //TODO
+                this._showNodeDeleteForm(nodeId)
             },
             onAddChild: (parentId) => {
                 this._showNodeEdit(null, parentId)
@@ -47,8 +46,29 @@ class TreeNodes extends Component {
     }
 
     onNodeSaved() {
-        console.log("onNodeSaved");
         this._hideNodeEdit();
+    }
+
+    onNodeDeleted() {
+        this._hideNodeDeleteForm();
+    }
+
+    _showNodeDeleteForm(nodeId) {
+        this.setState({
+            deleteNodeData: {
+                visible: true,
+                nodeId: nodeId
+            }
+        });
+    }
+
+    _hideNodeDeleteForm() {
+        this.setState({
+            deleteNodeData: {
+                visible: false,
+                nodeId: null
+            }
+        });
     }
 
     _showNodeEdit(nodeId, parentId) {
@@ -71,18 +91,8 @@ class TreeNodes extends Component {
         });
     }
 
-    onNodeEditClose() {
-        this.setState({
-            nodeEditData: {
-                visible: false,
-                nodeId: null,
-                parentId: null
-            }
-        });
-    }
-
     render() {
-        const { selectedNodeId, nodeEditData } = this.state;
+        const { selectedNodeId, nodeEditData, deleteNodeData } = this.state;
         return (
             <div className={styles.box}>
                 <Tree
@@ -96,7 +106,16 @@ class TreeNodes extends Component {
                     <NodeEditPresenter
                         nodeEditData={nodeEditData}
                         onSaved={this.onNodeSaved.bind(this)}
-                        onClose={this.onNodeEditClose.bind(this)}
+                        onClose={this._hideNodeEdit.bind(this)}
+                    />
+                    : null
+                }
+
+                {deleteNodeData.visible ?
+                    <NodeDeleteForm
+                        deleteNodeData={deleteNodeData}
+                        onDeleted={this.onNodeDeleted.bind(this)}
+                        onClose={this._hideNodeDeleteForm.bind(this)}
                     />
                     : null
                 }
