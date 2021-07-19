@@ -56,11 +56,11 @@ class NodeEditView extends Component {
                         <tbody>
                             <tr>
                                 <td className={styles.fieldName}>id</td>
-                                <td><input readonly disabled type="text" value={id} /></td>
+                                <td><input readOnly disabled type="text" value={id == null ? "null" : id} /></td>
                             </tr>
                             <tr>
                                 <td className={styles.fieldName}>parentId</td>
-                                <td><input readonly disabled type="text" value={parentId} /></td>
+                                <td><input readOnly disabled type="text" value={parentId == null ? "null" : parentId} /></td>
                             </tr>
                             <tr>
                                 <td className={styles.fieldName}>name</td>

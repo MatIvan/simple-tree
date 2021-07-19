@@ -20,6 +20,18 @@ class TreeNodeServiceImpl {
         return this._rest(parentId + "/children", this._getRestOptions('GET'));
     }
 
+    updateNode(node) {
+        return this._rest(node.id, this._getRestOptions('PUT', node));
+    }
+
+    addNode(node) {
+        return this._rest("", this._getRestOptions('POST', node));
+    }
+
+    deleteNode(nodeId) {
+        return this._rest(node.id, this._getRestOptions('DELETE'));
+    }
+
     _rest(servlet, options) {
         let requestUrl = this.baseUrl + servlet;
         console.log(">>> ", requestUrl, options);
@@ -30,8 +42,8 @@ class TreeNodeServiceImpl {
             .catch(this._onRestError);
     }
 
-    _getRestOptions(type) {
-        return {
+    _getRestOptions(type, body) {
+        let options = {
             method: type,                   // *GET, POST, PUT, DELETE, etc.
             mode: 'cors',                   // no-cors, *cors, same-origin
             cache: 'no-cache',              // *default, no-cache, reload, force-cache, only-if-cached
@@ -41,9 +53,14 @@ class TreeNodeServiceImpl {
                 'Accept': 'application/json'
             },
             redirect: 'follow',             // manual, *follow, error
-            referrerPolicy: 'no-referrer',  // no-referrer, *client
-            //body: JSON.stringify(data) // body data type must match "Content-Type" header
+            referrerPolicy: 'no-referrer'  // no-referrer, *client
         };
+
+        if (body !== undefined) {
+            options.body = JSON.stringify(body);
+        }
+
+        return options;
     }
 
     _status(response) {

@@ -29,11 +29,11 @@ class NodeEditPresenter extends Component {
                 caption: "Add new node:"
             });
         } else {
-            this.sendGetNode(this.props.nodeEditData.nodeId);
+            this._sendGetNode(this.props.nodeEditData.nodeId);
         }
     }
 
-    sendGetNode(nodeId) {
+    _sendGetNode(nodeId) {
         TreeNodeService.getNode(nodeId)
             .then(result => {
                 this.setState({
@@ -53,14 +53,55 @@ class NodeEditPresenter extends Component {
             });
     }
 
+    _sendUpdateNode(node) {
+        TreeNodeService.updateNode(node)
+            .then(result => {
+                this.setState({
+                    isLoaded: true,
+                    error: null,
+                    oldNode: result,
+                });
+                this.props.onSaved(result);
+            })
+            .catch(error => {
+                this.setState({
+                    isLoaded: true,
+                    error: error,
+                    oldNode: null,
+                });
+            });
+    }
+
+    _sendAddNode(node) {
+        TreeNodeService.addNode(node)
+            .then(result => {
+                this.setState({
+                    isLoaded: true,
+                    error: null,
+                    oldNode: result,
+                });
+                this.props.onSaved(result);
+            })
+            .catch(error => {
+                this.setState({
+                    isLoaded: true,
+                    error: error,
+                    oldNode: null,
+                });
+            });
+    }
+
     onPopupCancel() {
         this.props.onClose();
     }
 
     onPopupSave(newNode) {
         console.log("onPopupSave: ", newNode);
-
-        this.props.onSaved();
+        if (newNode.id == null) {
+            this._sendAddNode(newNode);
+        } else {
+            this._sendUpdateNode(newNode);
+        }
     }
 
     render() {

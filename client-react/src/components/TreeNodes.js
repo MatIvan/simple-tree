@@ -38,7 +38,7 @@ class TreeNodes extends Component {
                 this._showNodeEdit(nodeId, null)
             },
             onDelete: (nodeId) => {
-
+                //TODO
             },
             onAddChild: (parentId) => {
                 this._showNodeEdit(null, parentId)
