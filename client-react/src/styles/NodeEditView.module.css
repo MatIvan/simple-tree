@@ -7,15 +7,30 @@
     right: 0;
     bottom: 0;
     margin: auto;
-    background-color: rgba(0,0,0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-.inner{
+.inner {
     position: absolute;
-    left: 25%;
-    right: 25%;
+    left: 30%;
+    right: 30%;
     top: 25%;
-    bottom: 25%;
+    bottom: 40%;
     margin: auto;
     background: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tableNode {
+    margin-top: 20px;
+}
+
+.buttonsBox {
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 44px;
 }

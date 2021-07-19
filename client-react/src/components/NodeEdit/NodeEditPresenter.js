@@ -14,7 +14,7 @@ class NodeEditPresenter extends Component {
     }
 
     componentDidMount() {
-        if (this.props.nodeId == null) {
+        if (this.props.nodeEditData.nodeId == null) {
             let emptyNode = {
                 id: null,
                 parentId: this.props.nodeEditData.parentId,
@@ -26,6 +26,7 @@ class NodeEditPresenter extends Component {
                 isLoaded: true,
                 error: null,
                 oldNode: emptyNode,
+                caption: "Add new node:"
             });
         } else {
             this.sendGetNode(this.props.nodeEditData.nodeId);
@@ -39,6 +40,7 @@ class NodeEditPresenter extends Component {
                     isLoaded: true,
                     error: null,
                     oldNode: result,
+                    caption: "Edit node:"
                 });
             })
             .catch(error => {
@@ -46,6 +48,7 @@ class NodeEditPresenter extends Component {
                     isLoaded: true,
                     error: error,
                     oldNode: null,
+                    caption: "Edit node:"
                 });
             });
     }
@@ -55,18 +58,29 @@ class NodeEditPresenter extends Component {
     }
 
     onPopupSave(newNode) {
-        console.log("onPopupSave: ");
+        console.log("onPopupSave: ", newNode);
 
         this.props.onSaved();
     }
 
     render() {
-        const { oldNode } = this.state;
-        return <NodeEditView
-            node={oldNode}
-            onSave={this.onPopupSave.bind(this)}
-            onCancel={this.onPopupCancel.bind(this)}
-        />
+        const { error, isLoaded, oldNode, caption } = this.state;
+        let data;
+        if (error) {
+            data = (<div>Error: {error.message}</div>);
+        } else if (!isLoaded) {
+            data = (<div>Loading...</div>);
+        } else if (oldNode == null) {
+            data = (<div>Data is null.</div>);
+        } else {
+            data = (<NodeEditView
+                caption={caption}
+                node={oldNode}
+                onSave={this.onPopupSave.bind(this)}
+                onCancel={this.onPopupCancel.bind(this)}
+            />)
+        }
+        return (data);
     }
 }
 
