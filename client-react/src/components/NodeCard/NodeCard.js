@@ -16,34 +16,36 @@ class NodeCard extends Component {
     }
 
     componentDidUpdate(prevProp) {
-        if (prevProp.selectedNodeId == this.props.selectedNodeId) {
-            return;
-        }
+        if (this.props.dataNodeCard.needUpdate && !prevProp.dataNodeCard.needUpdate) {
 
-        if (this.props.selectedNodeId == null) {
-            this.setState({
-                isLoaded: true,
-                error: null,
-                node: null,
-            });
-            return;
-        }
-
-        TreeNodeService.getNode(this.props.selectedNodeId)
-            .then(result => {
+            if (this.props.dataNodeCard.selectedNodeId == null) {
                 this.setState({
                     isLoaded: true,
                     error: null,
-                    node: result,
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    isLoaded: true,
-                    error: error,
                     node: null,
                 });
-            });
+                this.props.handler.onLoaded();
+                return;
+            }
+
+            TreeNodeService.getNode(this.props.dataNodeCard.selectedNodeId)
+                .then(result => {
+                    this.setState({
+                        isLoaded: true,
+                        error: null,
+                        node: result,
+                    });
+                    this.props.handler.onLoaded();
+                })
+                .catch(error => {
+                    this.setState({
+                        isLoaded: true,
+                        error: error,
+                        node: null,
+                    });
+                    this.props.handler.onLoaded();
+                });
+        }
     }
 
     render() {

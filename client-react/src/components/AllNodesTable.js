@@ -14,6 +14,16 @@ class AllNodesTable extends Component {
     }
 
     componentDidMount() {
+        this.sendGetAllNodes();
+    }
+
+    componentDidUpdate(pervProps) {
+        if (this.props.dataAllNodesTable.needUpdate && !pervProps.dataAllNodesTable.needUpdate) {
+            this.sendGetAllNodes();
+        }
+    }
+
+    sendGetAllNodes() {
         TreeNodeService.getAllNodes()
             .then(result => {
                 this.setState({
@@ -21,6 +31,7 @@ class AllNodesTable extends Component {
                     error: null,
                     nodes: result,
                 });
+                this.props.onLoaded();
             })
             .catch(error => {
                 this.setState({
@@ -28,6 +39,7 @@ class AllNodesTable extends Component {
                     error: error,
                     nodes: [],
                 });
+                this.props.onLoaded();
             });
     }
 

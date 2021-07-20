@@ -14,10 +14,10 @@ class NodeEditPresenter extends Component {
     }
 
     componentDidMount() {
-        if (this.props.nodeEditData.nodeId == null) {
+        if (this.props.dataNodeEdit.nodeId == null) {
             let emptyNode = {
                 id: null,
-                parentId: this.props.nodeEditData.parentId,
+                parentId: this.props.dataNodeEdit.parentId,
                 name: "newNode",
                 ip: "127.0.0.0",
                 port: 1234
@@ -29,7 +29,7 @@ class NodeEditPresenter extends Component {
                 caption: "Add new node:"
             });
         } else {
-            this._sendGetNode(this.props.nodeEditData.nodeId);
+            this._sendGetNode(this.props.dataNodeEdit.nodeId);
         }
     }
 

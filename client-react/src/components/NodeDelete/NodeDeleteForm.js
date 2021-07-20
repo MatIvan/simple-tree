@@ -12,7 +12,7 @@ class NodeDeleteForm extends Component {
     }
 
     onDeleteClick() {
-        TreeNodeService.deleteNode(this.props.deleteNodeData.nodeId)
+        TreeNodeService.deleteNode(this.props.dataDeleteNode.nodeId)
             .then(result => {
                 this.setState({
                     error: null
@@ -30,7 +30,7 @@ class NodeDeleteForm extends Component {
         const { error } = this.state;
         let message;
         if (error == null) {
-            message = (<div>Delete node by id: {this.props.deleteNodeData.nodeId} ?</div>);
+            message = (<div>Delete node by id: {this.props.dataDeleteNode.nodeId} ?</div>);
         } else {
             message = (<div>Error: {error.message}</div>)
         }
