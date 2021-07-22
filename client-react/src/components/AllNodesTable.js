@@ -18,7 +18,7 @@ class AllNodesTable extends Component {
     }
 
     componentDidUpdate(pervProps) {
-        if (this.props.dataAllNodesTable.needUpdate && !pervProps.dataAllNodesTable.needUpdate) {
+        if (this.props.needUpdateTime != pervProps.needUpdateTime) {
             this.sendGetAllNodes();
         }
     }
@@ -31,7 +31,6 @@ class AllNodesTable extends Component {
                     error: null,
                     nodes: result,
                 });
-                this.props.onLoaded();
             })
             .catch(error => {
                 this.setState({
@@ -39,7 +38,6 @@ class AllNodesTable extends Component {
                     error: error,
                     nodes: [],
                 });
-                this.props.onLoaded();
             });
     }
 

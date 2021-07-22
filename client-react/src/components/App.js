@@ -9,25 +9,13 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataAllNodesTable: {
-                needUpdate: true
-            }
+            needUpdateTime: null
         };
     }
 
     onDataChanged() {
         this.setState({
-            dataAllNodesTable: {
-                needUpdate: true
-            }
-        });
-    }
-
-    onLoadAllNodesTable() {
-        this.setState({
-            dataAllNodesTable: {
-                needUpdate: false
-            }
+            needUpdateTime: Date.now()
         });
     }
 
@@ -38,9 +26,7 @@ class App extends Component {
                 <h2>Tree:</h2>
                 <TreeNodes onDataChanged={this.onDataChanged.bind(this)} />
                 <h2>All nodes:</h2>
-                <AllNodesTable
-                    dataAllNodesTable={this.state.dataAllNodesTable}
-                    onLoaded={this.onLoadAllNodesTable.bind(this)} />
+                <AllNodesTable needUpdateTime={this.state.needUpdateTime} />
             </div>
         );
     }

@@ -10,8 +10,12 @@ class TreeNodes extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            dataTree: {
+                needUpdateTime: null,
+                changedNodeId: null,
+            },
             dataNodeCard: {
-                needUpdate: false,
+                needUpdateTime: null,
                 selectedNodeId: null,
             },
             dataNodeEdit: {
@@ -30,7 +34,7 @@ class TreeNodes extends Component {
         if (nodeId != this.state.dataNodeCard.selectedNodeId) {
             this.setState({
                 dataNodeCard: {
-                    needUpdate: true,
+                    needUpdateTime: Date.now(),
                     selectedNodeId: nodeId
                 }
             });
@@ -40,48 +44,48 @@ class TreeNodes extends Component {
     getHendler() {
         return {
             onEdit: (nodeId) => {
-                this._showNodeEdit(nodeId, null)
+                this.showNodeEdit(nodeId, null)
             },
             onDelete: (nodeId) => {
-                this._showNodeDeleteForm(nodeId)
+                this.showNodeDeleteForm(nodeId)
             },
             onAddChild: (parentId) => {
-                this._showNodeEdit(null, parentId)
-            },
-            onLoaded: () => {
-                this.setState({
-                    dataNodeCard: {
-                        needUpdate: false,
-                        selectedNodeId: this.state.dataNodeCard.selectedNodeId
-                    }
-                });
+                this.showNodeEdit(null, parentId)
             }
         }
     }
 
-    onNodeSaved() {
-        this._hideNodeEdit();
+    onNodeSaved(nodeId) {
+        this.hideNodeEdit();
         this.props.onDataChanged();
         this.setState({
+            dataTree: {
+                needUpdateTime: Date.now(),
+                changedNodeId: nodeId,
+            },
             dataNodeCard: {
-                needUpdate: true,
-                selectedNodeId: this.state.dataNodeCard.selectedNodeId
+                needUpdateTime: Date.now(),
+                selectedNodeId: nodeId
             }
         });
     }
 
     onNodeDeleted() {
-        this._hideNodeDeleteForm();
+        this.hideNodeDeleteForm();
         this.setState({
+            dataTree: {
+                needUpdateTime: Date.now(),
+                changedNodeId: this.state.dataNodeCard.selectedNodeId,
+            },
             dataNodeCard: {
-                selectedNodeId: null,
-                needUpdate: true,
+                needUpdateTime: Date.now(),
+                selectedNodeId: null
             }
         });
         this.props.onDataChanged();
     }
 
-    _showNodeDeleteForm(nodeId) {
+    showNodeDeleteForm(nodeId) {
         this.setState({
             dataDeleteNode: {
                 visible: true,
@@ -90,7 +94,7 @@ class TreeNodes extends Component {
         });
     }
 
-    _hideNodeDeleteForm() {
+    hideNodeDeleteForm() {
         this.setState({
             dataDeleteNode: {
                 visible: false,
@@ -99,7 +103,7 @@ class TreeNodes extends Component {
         });
     }
 
-    _showNodeEdit(nodeId, parentId) {
+    showNodeEdit(nodeId, parentId) {
         this.setState({
             dataNodeEdit: {
                 visible: true,
@@ -109,7 +113,7 @@ class TreeNodes extends Component {
         });
     }
 
-    _hideNodeEdit() {
+    hideNodeEdit() {
         this.setState({
             dataNodeEdit: {
                 visible: false,
@@ -120,10 +124,11 @@ class TreeNodes extends Component {
     }
 
     render() {
-        const { dataNodeCard, dataNodeEdit, dataDeleteNode } = this.state;
+        const { dataTree, dataNodeCard, dataNodeEdit, dataDeleteNode } = this.state;
         return (
             <div className={styles.box}>
                 <Tree
+                    dataTree={dataTree}
                     onNodeItemSelected={this.onNodeItemSelected.bind(this)} />
 
                 <NodeCard
@@ -134,7 +139,7 @@ class TreeNodes extends Component {
                     <NodeEditPresenter
                         dataNodeEdit={dataNodeEdit}
                         onSaved={this.onNodeSaved.bind(this)}
-                        onClose={this._hideNodeEdit.bind(this)}
+                        onClose={this.hideNodeEdit.bind(this)}
                     />
                     : null
                 }
@@ -143,7 +148,7 @@ class TreeNodes extends Component {
                     <NodeDeleteForm
                         dataDeleteNode={dataDeleteNode}
                         onDeleted={this.onNodeDeleted.bind(this)}
-                        onClose={this._hideNodeDeleteForm.bind(this)}
+                        onClose={this.hideNodeDeleteForm.bind(this)}
                     />
                     : null
                 }

@@ -29,11 +29,11 @@ class NodeEditPresenter extends Component {
                 caption: "Add new node:"
             });
         } else {
-            this._sendGetNode(this.props.dataNodeEdit.nodeId);
+            this.sendGetNode(this.props.dataNodeEdit.nodeId);
         }
     }
 
-    _sendGetNode(nodeId) {
+    sendGetNode(nodeId) {
         TreeNodeService.getNode(nodeId)
             .then(result => {
                 this.setState({
@@ -53,7 +53,7 @@ class NodeEditPresenter extends Component {
             });
     }
 
-    _sendUpdateNode(node) {
+    sendUpdateNode(node) {
         TreeNodeService.updateNode(node)
             .then(result => {
                 this.setState({
@@ -61,7 +61,7 @@ class NodeEditPresenter extends Component {
                     error: null,
                     oldNode: result,
                 });
-                this.props.onSaved(result);
+                this.props.onSaved(result.id);
             })
             .catch(error => {
                 this.setState({
@@ -72,7 +72,7 @@ class NodeEditPresenter extends Component {
             });
     }
 
-    _sendAddNode(node) {
+    sendAddNode(node) {
         TreeNodeService.addNode(node)
             .then(result => {
                 this.setState({
@@ -80,7 +80,7 @@ class NodeEditPresenter extends Component {
                     error: null,
                     oldNode: result,
                 });
-                this.props.onSaved(result);
+                this.props.onSaved(result.parentId);
             })
             .catch(error => {
                 this.setState({
@@ -96,11 +96,10 @@ class NodeEditPresenter extends Component {
     }
 
     onPopupSave(newNode) {
-        console.log("onPopupSave: ", newNode);
         if (newNode.id == null) {
-            this._sendAddNode(newNode);
+            this.sendAddNode(newNode);
         } else {
-            this._sendUpdateNode(newNode);
+            this.sendUpdateNode(newNode);
         }
     }
 

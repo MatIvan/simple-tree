@@ -16,13 +16,28 @@ class Tree extends Component {
     }
 
     componentDidMount() {
+        this.sendGetRootNodes();
+    }
+
+    componentDidUpdate(prevProp) {
+        if (this.props.dataTree.needUpdateTime != prevProp.dataTree.needUpdateTime) {
+            if (this.hasNodeById(this.props.dataTree.changedNodeId)) {
+                this.sendGetRootNodes();
+            }
+        }
+    }
+
+    hasNodeById(nodeId) {
+        return this.state.rootNodes.find(node => node.id == nodeId);
+    }
+
+    sendGetRootNodes() {
         TreeNodeService.getRootNodes()
             .then(result => {
                 this.setState({
                     isLoaded: true,
                     error: null,
                     rootNodes: result,
-                    selectedNodeId: null,
                 });
             })
             .catch(error => {
@@ -46,6 +61,7 @@ class Tree extends Component {
 
     render() {
         const { error, isLoaded, rootNodes, selectedNodeId } = this.state;
+        const { needUpdateTime, changedNodeId } = this.props.dataTree;
         let data;
 
         if (error) {
@@ -58,7 +74,10 @@ class Tree extends Component {
                     key={node.id}
                     node={node}
                     onNodeItemClick={this.onNodeItemClick.bind(this)}
-                    selectedNodeId={selectedNodeId} />
+                    selectedNodeId={selectedNodeId}
+                    changedNodeId={changedNodeId}
+                    needUpdateTime={needUpdateTime}
+                />
             ));
         }
 

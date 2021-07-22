@@ -14,10 +14,6 @@ class NodeItem extends Component {
         };
     }
 
-    componentDidMount() {
-        //do nothing
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (prevState.isCollapsed !== this.state.isCollapsed) {
             if (this.state.isCollapsed) {
@@ -34,7 +30,15 @@ class NodeItem extends Component {
                 });
                 this.sendRequest();
             }
+        } else if (this.props.needUpdateTime != prevProps.needUpdateTime) {
+            if (this.hasNodeById(this.props.changedNodeId)) {
+                this.sendRequest();
+            }
         }
+    }
+
+    hasNodeById(nodeId) {
+        return this.state.nodes.find(node => node.id == nodeId);
     }
 
     sendRequest() {

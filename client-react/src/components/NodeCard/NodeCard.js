@@ -16,7 +16,7 @@ class NodeCard extends Component {
     }
 
     componentDidUpdate(prevProp) {
-        if (this.props.dataNodeCard.needUpdate && !prevProp.dataNodeCard.needUpdate) {
+        if (this.props.dataNodeCard.needUpdateTime != prevProp.dataNodeCard.needUpdateTime) {
 
             if (this.props.dataNodeCard.selectedNodeId == null) {
                 this.setState({
@@ -24,7 +24,6 @@ class NodeCard extends Component {
                     error: null,
                     node: null,
                 });
-                this.props.handler.onLoaded();
                 return;
             }
 
@@ -35,7 +34,6 @@ class NodeCard extends Component {
                         error: null,
                         node: result,
                     });
-                    this.props.handler.onLoaded();
                 })
                 .catch(error => {
                     this.setState({
@@ -43,7 +41,6 @@ class NodeCard extends Component {
                         error: error,
                         node: null,
                     });
-                    this.props.handler.onLoaded();
                 });
         }
     }
