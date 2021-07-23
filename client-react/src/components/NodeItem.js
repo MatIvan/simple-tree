@@ -31,7 +31,7 @@ class NodeItem extends Component {
                 this.sendRequest();
             }
         } else if (this.props.needUpdateTime != prevProps.needUpdateTime) {
-            if (this.hasNodeById(this.props.changedNodeId)) {
+            if (this.hasNodeById(this.props.changedNodeId) || this.props.parentForNewNode == this.props.node.id) {
                 this.sendRequest();
             }
         }
@@ -72,6 +72,7 @@ class NodeItem extends Component {
 
     render() {
         const { error, isLoaded, nodes } = this.state;
+        const { selectedNodeId, needUpdateTime, changedNodeId, parentForNewNode } = this.props;
         let data;
 
         if (error) {
@@ -84,7 +85,11 @@ class NodeItem extends Component {
                     key={node.id}
                     node={node}
                     onNodeItemClick={this.props.onNodeItemClick}
-                    selectedNodeId={this.props.selectedNodeId} />
+                    selectedNodeId={selectedNodeId}
+                    changedNodeId={changedNodeId}
+                    needUpdateTime={needUpdateTime}
+                    parentForNewNode={parentForNewNode}
+                />
             ));
         }
 

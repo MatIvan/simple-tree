@@ -61,7 +61,7 @@ class Tree extends Component {
 
     render() {
         const { error, isLoaded, rootNodes, selectedNodeId } = this.state;
-        const { needUpdateTime, changedNodeId } = this.props.dataTree;
+        const { needUpdateTime, changedNodeId, parentForNewNode } = this.props.dataTree;
         let data;
 
         if (error) {
@@ -77,6 +77,7 @@ class Tree extends Component {
                     selectedNodeId={selectedNodeId}
                     changedNodeId={changedNodeId}
                     needUpdateTime={needUpdateTime}
+                    parentForNewNode={parentForNewNode}
                 />
             ));
         }

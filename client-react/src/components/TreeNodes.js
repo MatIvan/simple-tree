@@ -13,6 +13,7 @@ class TreeNodes extends Component {
             dataTree: {
                 needUpdateTime: null,
                 changedNodeId: null,
+                parentForNewNode: null,
             },
             dataNodeCard: {
                 needUpdateTime: null,
@@ -55,17 +56,18 @@ class TreeNodes extends Component {
         }
     }
 
-    onNodeSaved(nodeId) {
+    onNodeSaved(changedNodeId, parentForNewNode) {
         this.hideNodeEdit();
         this.props.onDataChanged();
         this.setState({
             dataTree: {
                 needUpdateTime: Date.now(),
-                changedNodeId: nodeId,
+                changedNodeId: changedNodeId,
+                parentForNewNode: parentForNewNode,
             },
             dataNodeCard: {
                 needUpdateTime: Date.now(),
-                selectedNodeId: nodeId
+                selectedNodeId: changedNodeId
             }
         });
     }
@@ -76,6 +78,7 @@ class TreeNodes extends Component {
             dataTree: {
                 needUpdateTime: Date.now(),
                 changedNodeId: this.state.dataNodeCard.selectedNodeId,
+                parentForNewNode: null,
             },
             dataNodeCard: {
                 needUpdateTime: Date.now(),

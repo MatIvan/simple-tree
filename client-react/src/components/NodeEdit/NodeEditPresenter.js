@@ -61,7 +61,7 @@ class NodeEditPresenter extends Component {
                     error: null,
                     oldNode: result,
                 });
-                this.props.onSaved(result.id);
+                this.props.onSaved(result.id, null);
             })
             .catch(error => {
                 this.setState({
@@ -80,7 +80,7 @@ class NodeEditPresenter extends Component {
                     error: null,
                     oldNode: result,
                 });
-                this.props.onSaved(result.parentId);
+                this.props.onSaved(null, result.parentId);
             })
             .catch(error => {
                 this.setState({
