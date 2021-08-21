@@ -1,9 +1,12 @@
 import './style/ui.css';
+import { UILabel } from './ui/ui-label';
+import { UIVerticalPanel } from './ui/ui-vertical-panel';
 
-import { UIFactory } from './ui/ui-factory'
+const STYLE_CAPTION = "ui-caption";
 
-let vp = UIFactory.getVerticalPanel();
-vp.appendChild(UIFactory.getLabel("Label 1"));
-vp.appendChild(UIFactory.getLabel("Label 2"));
+let vp = new UIVerticalPanel();
+vp.add(new UILabel("text 1"));
+vp.add(new UILabel("text 2", STYLE_CAPTION));
+vp.add(new UILabel("text 3"));
 
-document.getElementById("root").appendChild(vp);
+vp.go(document.getElementById("root"));
