@@ -1,0 +1,4 @@
+.ui-vertical-panel {
+    display: flex;
+    flex-direction: column;
+}

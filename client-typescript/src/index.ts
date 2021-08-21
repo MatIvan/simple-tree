@@ -1,9 +1,9 @@
-import { VerticalPanel } from './ui/vertical-panel'
-import { Label } from './ui/label'
+import './style/ui.css';
 
-let vp = new VerticalPanel();
+import { UIFactory } from './ui/ui-factory'
 
-document.getElementById("root").appendChild(vp.asWidget());
+let vp = UIFactory.getVerticalPanel();
+vp.appendChild(UIFactory.getLabel("Label 1"));
+vp.appendChild(UIFactory.getLabel("Label 2"));
 
-vp.add(new Label("line 1"));
-vp.add(new Label("line 2"));
+document.getElementById("root").appendChild(vp);
