@@ -1,9 +1,12 @@
 export class UIElement {
     private _element: HTMLElement;
 
-    constructor(style: string) {
+    constructor(style: string, additionalStyle?: string) {
         this._element = document.createElement("div");
         this._element.className = style;
+        if (additionalStyle) {
+            this._element.classList.add(additionalStyle);
+        }
     }
 
     protected get htmlElement(): HTMLElement {

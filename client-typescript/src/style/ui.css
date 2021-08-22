@@ -1,6 +1,15 @@
+body {
+    background-color: gray;
+}
+
 .ui-vertical-panel {
     display: flex;
     flex-direction: column;
+}
+
+.ui-horizontal-panel {
+    display: flex;
+    flex-direction: row;
 }
 
 .ui-label {

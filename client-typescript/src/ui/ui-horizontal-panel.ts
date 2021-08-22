@@ -1,8 +1,8 @@
 import { UIElement } from "./ui-element";
 
-const STYLE = "ui-vertical-panel";
+const STYLE = "ui-horizontal-panel";
 
-export class UIVerticalPanel extends UIElement {
+export class UIHorizontalPanel extends UIElement {
     constructor(style?: string) {
         super(STYLE, style);
     }

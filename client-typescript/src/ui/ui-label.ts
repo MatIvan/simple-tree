@@ -4,10 +4,7 @@ const STYLE = "ui-label";
 
 export class UILabel extends UIElement {
     constructor(text: string, style?: string) {
-        super(STYLE);
+        super(STYLE, style);
         this.htmlElement.innerText = text;
-        if (style) {
-            this.addStyleName(style);
-        }
     }
 }
