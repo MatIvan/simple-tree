@@ -16,6 +16,7 @@ export class MainWidget extends UIVerticalPanel {
 
         this._allNodesTable = new AllNodesTablePresenter(new AllNodesTableView());
         this._allNodesTable.go(this);
+        this._allNodesTable.update();
     }
 
 

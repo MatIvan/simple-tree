@@ -1,7 +1,7 @@
+import { TreeNode } from '../../entity/tree-node';
 import '../../style/all-nodes-table.css';
 import { UIElement } from "../../ui/ui-element";
 import { UIVerticalPanel } from "../../ui/ui-vertical-panel";
-import { AllNodesTableViewData } from './all-nodes-table-view-data';
 
 const STYLE_MAIN = "all-nodes-table";
 
@@ -11,7 +11,15 @@ export class AllNodesTableView extends UIVerticalPanel {
         super(STYLE_MAIN);
     }
 
-    setData(data: AllNodesTableViewData) {
+    setData(data: Array<TreeNode>) {
+
+    }
+
+    setError(error: Error) {
+
+    }
+
+    setLoading() {
 
     }
 }
