@@ -20,3 +20,12 @@ body {
     font-size: 18px;
     font-weight: bold;
 }
+
+.ui-table {
+    border: solid 1px black;
+    border-collapse: collapse;
+}
+
+.ui-table>tr>td {
+    border: solid 1px black;
+}

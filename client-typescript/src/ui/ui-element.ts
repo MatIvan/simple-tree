@@ -1,9 +1,11 @@
 export class UIElement {
     private _element: HTMLElement;
 
-    constructor(style: string, additionalStyle?: string) {
-        this._element = document.createElement("div");
-        this._element.className = style;
+    constructor(tag: string, style: string, additionalStyle?: string) {
+        this._element = document.createElement(tag);
+        if (style) {
+            this._element.className = style;
+        }
         if (additionalStyle) {
             this._element.classList.add(additionalStyle);
         }
@@ -23,5 +25,9 @@ export class UIElement {
 
     go(htmlElement: HTMLElement) {
         htmlElement.appendChild(this._element);
+    }
+
+    clear() {
+        this._element.innerHTML = "";
     }
 }
