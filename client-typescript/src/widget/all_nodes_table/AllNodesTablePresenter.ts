@@ -1,7 +1,6 @@
-import { TreeNode } from "../../entity/tree-node";
-import { TreeNodeService } from "../../service/tree-node-service";
-import { UIElement } from "../../ui/ui-element";
-import { AllNodesTableView } from "./all-nodes-table-view";
+import { TreeNode } from "../../entity/TreeNode";
+import { TreeNodeService } from "../../service/TreeNodeService";
+import { AllNodesTableView } from "./AllNodesTableView";
 
 export class AllNodesTablePresenter {
 
@@ -9,10 +8,6 @@ export class AllNodesTablePresenter {
 
     constructor(view: AllNodesTableView) {
         this._view = view;
-    }
-
-    go(parent: UIElement) {
-        parent.add(this._view);
     }
 
     update() {

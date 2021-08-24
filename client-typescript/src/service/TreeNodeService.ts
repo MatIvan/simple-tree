@@ -1,4 +1,4 @@
-import { TreeNode } from "../entity/tree-node";
+import { TreeNode } from "../entity/TreeNode";
 
 const REST_GET = "GET";
 const REST_PUT = "PUT";

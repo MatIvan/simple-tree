@@ -1,7 +1,3 @@
-body {
-    background-color: gray;
-}
-
 .ui-vertical-panel {
     display: flex;
     flex-direction: column;
@@ -26,6 +22,15 @@ body {
     border-collapse: collapse;
 }
 
-.ui-table>tr>td {
+.ui-table>thead>tr>td {
     border: solid 1px black;
+    background-color: gray;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px;
+}
+
+.ui-table>tbody>tr>td {
+    border: solid 1px black;
+    padding: 4px;
 }
