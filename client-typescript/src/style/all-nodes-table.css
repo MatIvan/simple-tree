@@ -1,3 +1,12 @@
 .all-nodes-table {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
     margin: 10px;
+}
+
+.all-nodes-table>table {
+    width: 100%;
 }

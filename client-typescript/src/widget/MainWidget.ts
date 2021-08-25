@@ -15,6 +15,8 @@ export class MainWidget extends Widget {
         let view = new AllNodesTableView();
         this.add(view);
         this._allNodesTable = new AllNodesTablePresenter(view);
+
+
         this._allNodesTable.update();
     }
 

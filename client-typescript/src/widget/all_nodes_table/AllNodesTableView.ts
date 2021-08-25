@@ -7,8 +7,11 @@ const STYLE_MAIN = "all-nodes-table";
 
 export class AllNodesTableView extends Widget {
 
+    private _updateBtn: HTMLButtonElement;
+
     constructor() {
         super(STYLE_MAIN);
+        this._updateBtn = UIFabric.getButton("Update");
     }
 
     private _makeTable(data: Array<TreeNode>): HTMLTableElement {
@@ -39,6 +42,11 @@ export class AllNodesTableView extends Widget {
         bRow.insertCell().innerText = String(node.port);
     }
 
+    clear() {
+        super.clear();
+        this.add(this._updateBtn);
+    }
+
     setData(data: Array<TreeNode>) {
         this.clear();
         this.add(this._makeTable(data));
@@ -52,5 +60,9 @@ export class AllNodesTableView extends Widget {
     setLoading() {
         this.clear();
         this.add(UIFabric.getLabel("Loading..."));
+    }
+
+    setUpdateBtnHandler(handler: (ev: MouseEvent) => any) {
+        this._updateBtn.onclick = handler;
     }
 }

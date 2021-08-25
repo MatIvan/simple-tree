@@ -8,6 +8,7 @@ export enum UIType {
     HorizontalPanel,
     Label,
     Table,
+    Button,
 }
 
 const UITypeMap = new Map<UIType, UITypeData>([
@@ -15,6 +16,7 @@ const UITypeMap = new Map<UIType, UITypeData>([
     [UIType.HorizontalPanel, { tag: "div", class: "ui-horizontal-panel" }],
     [UIType.Label, { tag: "div", class: "ui-label" }],
     [UIType.Table, { tag: "table", class: "ui-table" }],
+    [UIType.Button, { tag: "button", class: "ui-button" }],
 ]);
 
 class UIFabricImpl {
@@ -45,6 +47,12 @@ class UIFabricImpl {
 
     getTable(style?: string): HTMLTableElement {
         return this._get(UIType.Table, style) as HTMLTableElement;
+    }
+
+    getButton(text: string, style?: string): HTMLButtonElement {
+        let el: HTMLButtonElement = this._get(UIType.Button, style) as HTMLButtonElement;
+        el.innerText = text;
+        return el;
     }
 }
 

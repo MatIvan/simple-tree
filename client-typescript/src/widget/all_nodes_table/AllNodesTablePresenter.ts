@@ -8,6 +8,9 @@ export class AllNodesTablePresenter {
 
     constructor(view: AllNodesTableView) {
         this._view = view;
+        this._view.setUpdateBtnHandler((ev: MouseEvent) => {
+            this.update();
+        });
     }
 
     update() {
