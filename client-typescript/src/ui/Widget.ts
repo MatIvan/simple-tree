@@ -11,7 +11,7 @@ export class Widget {
     }
 
     protected get element(): HTMLDivElement {
-        return this.element;
+        return this._element;
     }
 
     asNode(): Node {

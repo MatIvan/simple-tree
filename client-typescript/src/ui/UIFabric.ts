@@ -11,6 +11,10 @@ export enum UIType {
     Button,
 }
 
+export const UIStyle = {
+    hide: "ui-hide",
+}
+
 const UITypeMap = new Map<UIType, UITypeData>([
     [UIType.VerticalPanel, { tag: "div", class: "ui-vertical-panel" }],
     [UIType.HorizontalPanel, { tag: "div", class: "ui-horizontal-panel" }],

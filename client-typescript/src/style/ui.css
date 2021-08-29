@@ -34,3 +34,7 @@
     border: solid 1px black;
     padding: 4px;
 }
+
+.ui-hide {
+    display: none !important;
+}
