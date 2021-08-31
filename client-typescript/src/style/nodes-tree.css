@@ -3,18 +3,27 @@
     flex-direction: column;
     margin: 10px;
     border: solid 1px black;
+    font-family: monospace;
 }
 
 .nodes-tree-item {
     display: flex;
     flex-direction: column;
-    margin-left: 20px;
+    margin: 2px 2px 2px 20px;
 }
 
 .nodes-tree-item-selected {
-    background-color: cornflowerblue;
+    background-color: cornflowerblue !important;
+}
+
+.nodes-tree-item-ui-container {
+    gap: 4px;
 }
 
 .nodes-tree-item-ui-container:hover {
     background-color: darkgray;
+}
+
+.nodes-tree-item-ui-container>button {
+    font-family: monospace;
 }

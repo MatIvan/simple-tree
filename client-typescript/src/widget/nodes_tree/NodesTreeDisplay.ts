@@ -1,7 +1,8 @@
 import { TreeNode } from "../../entity/TreeNode";
+import { TreeItemData } from "./TreeItemData";
 
 export interface NodesTreeDisplay {
-    addNodes(nodes: Array<TreeNode>): void;
+    addNodes(parentId: number, treeItemData: TreeItemData[]): void;
     setError(error: Error): void;
     onSelect: (nodeId: number) => any;
     onExpand: (nodeId: number) => any;

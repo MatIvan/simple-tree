@@ -10,7 +10,7 @@ export class Widget {
         }
     }
 
-    protected get element(): HTMLDivElement {
+    get element(): HTMLDivElement {
         return this._element;
     }
 

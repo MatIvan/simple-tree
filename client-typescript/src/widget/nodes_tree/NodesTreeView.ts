@@ -1,30 +1,27 @@
 import '../../style/nodes-tree.css';
-import { TreeNode } from "../../entity/TreeNode";
 import { Widget } from "../../ui/Widget";
 import { NodesTreeDisplay } from "./NodesTreeDisplay";
-import { NodesTreeItem } from './NodesTreeItem';
+import { NodesTreeItemWidget } from './NodesTreeItemWidget';
 import { UIFabric } from '../../ui/UIFabric';
+import { TreeItemData } from './TreeItemData';
 
 const STYLE_MAIN = "nodes-tree";
 
 export class NodesTreeView extends Widget implements NodesTreeDisplay {
 
-    private _nodeMap: Map<number, NodesTreeItem>;// key nodeId
+    private _nodeMap: Map<number, NodesTreeItemWidget>;// key nodeId
     private _selectedNodeId: number;
 
     constructor() {
         super(STYLE_MAIN);
-        this._nodeMap = new Map<number, NodesTreeItem>();
+        this._nodeMap = new Map<number, NodesTreeItemWidget>();
     }
 
-    addNodes(nodes: TreeNode[]): void {
-        nodes.forEach(node => {
-            let item: NodesTreeItem = this._nodeMap.get(node.id);
-            if (item) {
-                item.name = node.name;
-            } else {
-                let newItem = this._makeItem(node);
-                let parentItem: NodesTreeItem = this._nodeMap.get(node.parentId);
+    addNodes(parentId: number, treeItemData: TreeItemData[]): void {
+        treeItemData.forEach(treeItemData => {
+            if (!this._nodeMap.has(treeItemData.id)) {
+                let newItem = this._makeItem(treeItemData);
+                let parentItem: NodesTreeItemWidget = this._nodeMap.get(parentId);
                 if (parentItem) {
                     parentItem.addItem(newItem);
                 } else {
@@ -34,29 +31,38 @@ export class NodesTreeView extends Widget implements NodesTreeDisplay {
         });
     }
 
-    private _select(nodeId: number) {
-        let item: NodesTreeItem = this._nodeMap.get(nodeId);
+    removeNodes(itemIdList: number[]) {
+        itemIdList.forEach(itemid => {
+            let item: NodesTreeItemWidget = this._nodeMap.get(itemid);
+            if (item) {
+                item.element.parentNode.removeChild(item.element);
+                this._nodeMap.delete(itemid);
+            }
+        });
+    }
+
+    private _select(itemId: number) {
+        let item: NodesTreeItemWidget = this._nodeMap.get(itemId);
         if (item) {
-            let currentSelecteditem: NodesTreeItem = this._nodeMap.get(this._selectedNodeId);
+            let currentSelecteditem: NodesTreeItemWidget = this._nodeMap.get(this._selectedNodeId);
             if (currentSelecteditem) {
                 currentSelecteditem.selected = false;
             }
             item.selected = true;
-            this._selectedNodeId = nodeId;
+            this._selectedNodeId = itemId;
+            this.onSelect(itemId);
         }
     }
 
-    private _makeItem(node: TreeNode): NodesTreeItem {
-        let newItem = new NodesTreeItem(node.id, node.name);
-        newItem.onClick = nodeId => {
-            this._select(nodeId);
-            this.onSelect(nodeId);
+    private _makeItem(treeItemData: TreeItemData): NodesTreeItemWidget {
+        let newItem = new NodesTreeItemWidget(treeItemData);
+        newItem.onClick = treeItemData => {
+            this._select(treeItemData.id);
         };
-        newItem.onExpand = nodeId => {
-            this.onExpand(nodeId);
+        newItem.onExpand = treeItemData => {
+            this.onExpand(treeItemData.id);
         };
-
-        this._nodeMap.set(node.id, newItem);
+        this._nodeMap.set(treeItemData.id, newItem);
         return newItem;
     }
 
