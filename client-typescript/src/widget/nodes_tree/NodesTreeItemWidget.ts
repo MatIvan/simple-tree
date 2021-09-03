@@ -34,8 +34,12 @@ export class NodesTreeItemWidget extends Widget {
         }
 
         this._label = UIFabric.getLabel(this._data.name);
-        this._itemsContainer = UIFabric.getVerticalPanel(UIStyle.hide);
-        this._uiContainer = UIFabric.getHorizontalPanel(STYLE_UI_CONTAINER);
+
+        this._itemsContainer = UIFabric.getVerticalPanel();
+        this._itemsContainer.classList.add(UIStyle.hide);
+
+        this._uiContainer = UIFabric.getHorizontalPanel();
+        this._uiContainer.classList.add(STYLE_UI_CONTAINER);
         this._uiContainer.append(this._bnt, this._label);
         this._uiContainer.onclick = () => {
             this.onClick(this._data);
