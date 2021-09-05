@@ -1,31 +1,34 @@
 import '../../style/all-nodes-table.css';
 import { TreeNode } from '../../entity/TreeNode';
-import { Widget } from '../../ui/Widget';
-import { UIFabric } from '../../ui/UIFabric';
+import { VerticalPanel } from '../../ui/VerticalPanel';
+import { Button } from '../../ui/Button';
+import { Table } from '../../ui/Table';
+import { Label } from '../../ui/Label';
 
 const STYLE_MAIN = "all-nodes-table";
 
-export class AllNodesTableView extends Widget {
+export class AllNodesTableView extends VerticalPanel {
 
-    private _updateBtn: HTMLButtonElement;
+    private _updateBtn: Button;
 
     constructor() {
-        super(STYLE_MAIN);
-        this._updateBtn = UIFabric.getButton("Update");
+        super();
+        this.addStyle(STYLE_MAIN);
+        this._updateBtn = new Button("Update");
     }
 
-    private _makeTable(data: Array<TreeNode>): HTMLTableElement {
-        let table = UIFabric.getTable();
+    private _makeTable(data: Array<TreeNode>): Table {
+        let table = new Table();
         this._makeHead(table);
-        let body = table.createTBody();
+        let body = table.getElement().createTBody();
         data.forEach(node => {
             this._makeRow(body, node);
         });
         return table;
     }
 
-    private _makeHead(table: HTMLTableElement) {
-        let hRow = table.createTHead().insertRow();
+    private _makeHead(table: Table) {
+        let hRow = table.getElement().createTHead().insertRow();
         hRow.insertCell().innerText = "id";
         hRow.insertCell().innerText = "parentId";
         hRow.insertCell().innerText = "name";
@@ -54,15 +57,15 @@ export class AllNodesTableView extends Widget {
 
     setError(error: Error) {
         this.clear();
-        this.add(UIFabric.getLabel("Error: " + error.message));
+        this.add(new Label("Error: " + error.message));
     }
 
     setLoading() {
         this.clear();
-        this.add(UIFabric.getLabel("Loading..."));
+        this.add(new Label("Loading..."));
     }
 
-    setUpdateBtnHandler(handler: (ev: MouseEvent) => any) {
-        this._updateBtn.onclick = handler;
+    setUpdateBtnHandler(handler: () => any) {
+        this._updateBtn.setOnClickHandler(handler);
     }
 }

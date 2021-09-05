@@ -1,19 +1,20 @@
 import '../../style/nodes-tree.css';
-import { Widget } from "../../ui/Widget";
+import { Label } from '../../ui/Label';
+import { VerticalPanel } from '../../ui/VerticalPanel';
 import { NodesTreeDisplay } from "./NodesTreeDisplay";
 import { NodesTreeItemWidget } from './NodesTreeItemWidget';
-import { UIFabric } from '../../ui/UIFabric';
 import { TreeItemData } from './TreeItemData';
 
 const STYLE_MAIN = "nodes-tree";
 
-export class NodesTreeView extends Widget implements NodesTreeDisplay {
+export class NodesTreeView extends VerticalPanel implements NodesTreeDisplay {
 
     private _nodeMap: Map<number, NodesTreeItemWidget>;// key nodeId
     private _selectedNodeId: number;
 
     constructor() {
-        super(STYLE_MAIN);
+        super();
+        this.addStyle(STYLE_MAIN);
         this._nodeMap = new Map<number, NodesTreeItemWidget>();
     }
 
@@ -35,7 +36,7 @@ export class NodesTreeView extends Widget implements NodesTreeDisplay {
         itemIdList.forEach(itemid => {
             let item: NodesTreeItemWidget = this._nodeMap.get(itemid);
             if (item) {
-                item.element.parentNode.removeChild(item.element);
+                item.getParent().remove(item);
                 this._nodeMap.delete(itemid);
             }
         });
@@ -69,7 +70,7 @@ export class NodesTreeView extends Widget implements NodesTreeDisplay {
     setError(error: Error): void {
         this._nodeMap.clear();
         this.clear();
-        this.add(UIFabric.getLabel(error.message));
+        this.add(new Label(error.message));
     }
 
     onSelect: (nodeId: number) => any;

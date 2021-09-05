@@ -1,5 +1,5 @@
 import '../style/main-widget.css';
-import { Widget } from '../ui/Widget';
+import { VerticalPanel } from '../ui/VerticalPanel';
 
 import { AllNodesTablePresenter } from './all_nodes_table/AllNodesTablePresenter';
 import { AllNodesTableView } from './all_nodes_table/AllNodesTableView';
@@ -8,12 +8,13 @@ import { NodesTreeView } from './nodes_tree/NodesTreeView';
 
 const STYLE_MAIN = "main-widget";
 
-export class MainWidget extends Widget {
+export class MainWidget extends VerticalPanel {
     private _allNodesTable: AllNodesTablePresenter;
     private _tree: NodesTreePresenter;
 
     constructor() {
-        super(STYLE_MAIN);
+        super();
+        this.addStyle(STYLE_MAIN);
         this._build();
         this._bind();
     }

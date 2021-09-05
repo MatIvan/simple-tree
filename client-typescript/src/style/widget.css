@@ -1,28 +1,28 @@
-.ui-vertical-panel {
+.widget-vertical-panel {
     display: flex;
     flex-direction: column;
 }
 
-.ui-horizontal-panel {
+.widget-horizontal-panel {
     display: flex;
     flex-direction: row;
 }
 
-.ui-label {
+.widget-label {
     font-size: 16px;
 }
 
-.ui-caption {
+.widget-caption {
     font-size: 18px;
     font-weight: bold;
 }
 
-.ui-table {
+.widget-table {
     border: solid 1px black;
     border-collapse: collapse;
 }
 
-.ui-table>thead>tr>td {
+.widget-table>thead>tr>td {
     border: solid 1px black;
     background-color: gray;
     font-weight: bold;
@@ -30,11 +30,11 @@
     padding: 4px;
 }
 
-.ui-table>tbody>tr>td {
+.widget-table>tbody>tr>td {
     border: solid 1px black;
     padding: 4px;
 }
 
-.ui-hide {
+.widget-hide {
     display: none !important;
 }
