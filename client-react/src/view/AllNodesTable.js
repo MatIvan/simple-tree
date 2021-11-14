@@ -42,7 +42,7 @@ export default function AllNodesTable(props) {
     }
 
     return (
-        <div>
+        <div className="form-container">
             <button onClick={onRefreshClicked}>Refresh</button>
             {result}
         </div>

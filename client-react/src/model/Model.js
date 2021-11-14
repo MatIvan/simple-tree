@@ -77,6 +77,10 @@ class Model {
         let oldNode = this._getTreeNode(parentId);
         oldNode.children = children.map(node => this._makeTreeNode(node));
     }
+
+    getSelectedNodeId() {
+        return this.selectedNodeId;
+    }
 }
 
 export default new Model();

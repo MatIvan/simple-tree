@@ -9,6 +9,13 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+.form-container {
+    border: 1px solid black;
+    border-radius: 3px;
+    margin-right: 20px;
+    padding: 4px;
+}
+
 .TreeItem {
     display: flex;
     flex-direction: row;
@@ -25,4 +32,13 @@ code {
 
 .TreeItem-children {
     margin-left: 20px;
+}
+
+.TreeAndSelectionContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.TreeAndSelectionContainer_child {
+    width: 50%;
 }

@@ -17,7 +17,7 @@ export default function TreeRoot(props) {
     }
 
     return (
-        <div>
+        <div className="form-container">
             {result}
         </div>
     );

@@ -12,6 +12,7 @@ class Controller {
     constructor() {
         this._updateAllNodesTableState();
         this._updateTreeRootState();
+        this._updateSelectedNodeFormState();
     }
 
     _handler(name, data) {
@@ -23,6 +24,7 @@ class Controller {
         } else if (name === events.onItemClicked) {
             Model.selectItem(data);
             this._setTreeRootState(undefined, false);
+            this._updateSelectedNodeFormState();
 
         } else if (name === events.onExpandClicked) {
             let isNeedToUpdate = Model.togleItem(data);
@@ -90,6 +92,32 @@ class Controller {
                 this._setTreeRootState(undefined, false);
             })
             .catch((error) => { this._setTreeRootState(error, false); });
+    }
+
+    // ##### SelectedNodeFormState
+    onSelectedNodeFormStateChanged(selectedNodeFormState) { }
+
+    _setSelectedNodeFormState(error, selectedNode) {
+        this.selectedNodeFormState = {
+            error: error,
+            selectedNode: selectedNode,
+        };
+        this.onSelectedNodeFormStateChanged(this.selectedNodeFormState);
+    }
+
+    _updateSelectedNodeFormState() {
+        let selectedNodeId = Model.getSelectedNodeId();
+        if (selectedNodeId !== undefined) {
+            TreeNodeService.getNode(selectedNodeId)
+                .then((result) => {
+                    this._setSelectedNodeFormState(undefined, result);
+                })
+                .catch((error) => { this._setSelectedNodeFormState(error, undefined); });
+
+        } else {
+            // dont have selection
+            this._setSelectedNodeFormState(undefined, undefined);
+        }
     }
 }
 
