@@ -1,9 +1,0 @@
-.box {
-    border-top: solid 1px black;
-    width: 96%;
-    margin-top: 15px;
-    padding: 5px;
-    display: flex;
-    justify-content: space-evenly;
-    padding-top: 10px;
-}
