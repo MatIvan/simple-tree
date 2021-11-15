@@ -1,11 +1,6 @@
 import { TreeNodeService } from "./TreeNodeService";
 import Model from "../model/Model"
-
-export const events = {
-    onRefreshAllNodes: "onRefreshAllNodes",
-    onItemClicked: "onItemClicked",
-    onExpandClicked: "onExpandClicked",
-}
+import { Events } from "./Events";
 
 class Controller {
 
@@ -13,31 +8,42 @@ class Controller {
         this._updateAllNodesTableState();
         this._updateTreeRootState();
         this._updateSelectedNodeFormState();
+        this._updateUIPanelState();
     }
 
     _handler(name, data) {
         console.log("Controller::handler > ", name, data);
 
-        if (name === events.onRefreshAllNodes) {
-            this._updateAllNodesTableState();
+        switch (name) {
 
-        } else if (name === events.onItemClicked) {
-            Model.selectItem(data);
-            this._setTreeRootState(undefined, false);
-            this._updateSelectedNodeFormState();
+            case Events.onRefreshAllNodes:
+                this._updateAllNodesTableState();
+                break;
 
-        } else if (name === events.onExpandClicked) {
-            let isNeedToUpdate = Model.togleItem(data);
-            if (isNeedToUpdate) {
+            case Events.onItemClicked:
+                Model.selectItem(data);
+                this._setTreeRootState(undefined, false);
+                this._updateSelectedNodeFormState();
+                this._updateUIPanelState();
+                break;
+
+            case Events.onExpandClicked:
+                let isNeedToUpdate = Model.togleItem(data);
+                if (!isNeedToUpdate) {
+                    this._setTreeRootState(undefined, false);
+                    break;
+                }
                 TreeNodeService.getChildren(data)
                     .then((result) => {
                         Model.setChildren(data, result);
                         this._setTreeRootState(undefined, false);
                     })
                     .catch((error) => { this._setAllNodesTableState(error, false); });
-            } else {
-                this._setTreeRootState(undefined, false);
-            }
+                break;
+
+            default:
+                console.warn(`Unknown event: name=${name} , data=${data}`);
+                break;
         }
     }
 
@@ -46,9 +52,7 @@ class Controller {
     }
 
     // ##### AllNodesTableState
-
     onAllNodesTableStateChanged(allNodesTableState) { }
-
 
     _setAllNodesTableState(error, isLoading) {
         this.allNodesTableState = {
@@ -71,7 +75,6 @@ class Controller {
     }
 
     // ##### TreeRootState
-
     onTreeRootStateChanged(treeRootState) { }
 
     _setTreeRootState(error, isLoading) {
@@ -118,6 +121,21 @@ class Controller {
             // dont have selection
             this._setSelectedNodeFormState(undefined, undefined);
         }
+    }
+
+    // ##### UIPanelState
+    onUIPanelStateChanged(uiPanelState) { }
+
+    _setUIPanelState(selectedNodeId) {
+        this.uiPanelState = {
+            selectedNodeId: selectedNodeId,
+        };
+        this.onUIPanelStateChanged(this.uiPanelState);
+    }
+
+    _updateUIPanelState() {
+        let selectedNodeId = Model.getSelectedNodeId();
+        this._setUIPanelState(selectedNodeId);
     }
 }
 

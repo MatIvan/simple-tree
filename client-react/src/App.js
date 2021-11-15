@@ -3,6 +3,7 @@ import Controller from "./controller/Controller"
 import TreeRoot from "./view/TreeRoot";
 import AllNodesTable from "./view/AllNodesTable"
 import SelectedNodeForm from "./view/SelectedNodeForm";
+import UIPanel from "./view/UIPanel";
 
 function App() {
 
@@ -15,6 +16,9 @@ function App() {
   const [selectedNodeFormState, setSelectedNodeFormState] = React.useState(Controller.selectedNodeFormState);
   Controller.onSelectedNodeFormStateChanged = setSelectedNodeFormState;
 
+  const [uiPanelState, setUIPanelState] = React.useState(Controller.uiPanelState);
+  Controller.onUIPanelStateChanged = setUIPanelState;
+
   return (
     <div>
       <h1>Client React Tree</h1>
@@ -25,10 +29,14 @@ function App() {
         </div>
         <div className="TreeAndSelectionContainer_child">
           <b>Selected:</b>
-          <SelectedNodeForm selectedNodeFormState={selectedNodeFormState} handler={Controller.getHandler()} />
+          <SelectedNodeForm selectedNodeFormState={selectedNodeFormState} />
         </div>
       </div>
-      <br /><br />
+      <br />
+      <div className="UIPanelContainer form-container">
+        <UIPanel uiPanelState={uiPanelState} handler={Controller.getHandler()} />
+      </div>
+      <br />
       <b>All nodes:</b>
       <AllNodesTable allNodesTableState={allNodesTableState} handler={Controller.getHandler()} />
     </div>

@@ -14,6 +14,7 @@ code {
     border-radius: 3px;
     margin-right: 20px;
     padding: 4px;
+    background-color: beige;
 }
 
 .TreeItem {
@@ -41,4 +42,13 @@ code {
 
 .TreeAndSelectionContainer_child {
     width: 50%;
+}
+
+.UIPanelContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.UIPanelContainer_child {
+    margin: 4px;
 }

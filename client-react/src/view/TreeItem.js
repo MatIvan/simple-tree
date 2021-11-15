@@ -1,16 +1,15 @@
-import { events } from "../controller/Controller";
-
+import { Events } from "../controller/Events";
 
 export default function TreeItem(props) {
     const { id, name, expanded, selected, children } = props.treeNode;
     const handler = props.handler;
 
     function onItemClicked() {
-        handler(events.onItemClicked, id);
+        handler(Events.onItemClicked, id);
     }
 
     function onExpandClicked() {
-        handler(events.onExpandClicked, id);
+        handler(Events.onExpandClicked, id);
     }
 
     let childrenBlock;

@@ -1,4 +1,4 @@
-import { events } from "../controller/Controller";
+import { Events } from "../controller/Events";
 
 export default function AllNodesTable(props) {
     const { error, isLoading, nodes } = props.allNodesTableState;
@@ -38,7 +38,7 @@ export default function AllNodesTable(props) {
     }
 
     function onRefreshClicked() {
-        handler(events.onRefreshAllNodes);
+        handler(Events.onRefreshAllNodes);
     }
 
     return (

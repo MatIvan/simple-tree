@@ -1,7 +1,6 @@
 export default function SelectedNodeForm(props) {
 
     const { error, selectedNode } = props.selectedNodeFormState;
-    const handler = props.handler;
 
     let result = (<div>...</div>);
 
