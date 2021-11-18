@@ -6,4 +6,6 @@ export const Events = {
     onAddNodeClicked: "onAddNodeClicked",
     onEditNodeClicked: "onEditNodeClicked",
     onDeleteNodeClicked: "onDeleteNodeClicked",
+    onPopupEditorSaveClicked: "onPopupEditorSaveClicked",
+    onPopupEditorCancelClicked: "onPopupEditorCancelClicked",
 }

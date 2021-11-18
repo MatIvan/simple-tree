@@ -9,6 +9,13 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+td>input {
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
 .form-container {
     border: 1px solid black;
     border-radius: 3px;
@@ -51,4 +58,25 @@ code {
 
 .UIPanelContainer_child {
     margin: 4px;
+}
+
+.PopupEditor {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    position: fixed;
+    top: 0px;
+}
+
+.PopupEditor-content {
+    width: 30%;
+    margin: 20% auto 0px auto;
+    box-shadow: 0px 0px 10px #000;
+}
+
+.PopupEditor-ui {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
 }

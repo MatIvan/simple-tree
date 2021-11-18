@@ -9,6 +9,7 @@ class Controller {
         this._updateTreeRootState();
         this._updateSelectedNodeFormState();
         this._updateUIPanelState();
+        this._updatePopupEditorState();
     }
 
     _handler(name, data) {
@@ -41,6 +42,30 @@ class Controller {
                     .catch((error) => { this._setAllNodesTableState(error, false); });
                 break;
 
+            case Events.onAddRootNodeClicked:
+                this._setPopupEditorState(true, name, this._getNodeForRootAdd());
+                break;
+
+            case Events.onAddNodeClicked:
+                this._setPopupEditorState(true, name, this._getNodeForChildAdd());
+                break;
+
+            case Events.onEditNodeClicked:
+                this._setPopupEditorState(true, name, Model.getSelectedTreeNode());
+                break;
+
+            case Events.onDeleteNodeClicked:
+                throw new Error("TODO onDeleteNodeClicked");
+                break;
+
+            case Events.onPopupEditorSaveClicked:
+                throw new Error("TODO onPopupEditorSaveClicked");
+                break;
+
+            case Events.onPopupEditorCancelClicked:
+                this._updatePopupEditorState();
+                break;
+
             default:
                 console.warn(`Unknown event: name=${name} , data=${data}`);
                 break;
@@ -49,6 +74,23 @@ class Controller {
 
     getHandler() {
         return (name, data) => { this._handler(name, data); }
+    }
+
+    _getNodeForRootAdd() {
+        return {
+            id: "",
+            parentId: "",
+            name: "name",
+            ip: "ip",
+            port: "port"
+        }
+    }
+
+    _getNodeForChildAdd() {
+        return {
+            ...this._getNodeForRootAdd(),
+            parentId: Model.getSelectedNodeId(),
+        }
     }
 
     // ##### AllNodesTableState
@@ -136,6 +178,22 @@ class Controller {
     _updateUIPanelState() {
         let selectedNodeId = Model.getSelectedNodeId();
         this._setUIPanelState(selectedNodeId);
+    }
+
+    // ##### PopupEditorState
+    onPopupEditorStateChanged(popupEditorState) { }
+
+    _setPopupEditorState(visible, event, node) {
+        this.popupEditorState = {
+            visible: visible,
+            event: event,
+            node: node,
+        };
+        this.onPopupEditorStateChanged(this.popupEditorState);
+    }
+
+    _updatePopupEditorState() {
+        this._setPopupEditorState(false);
     }
 }
 

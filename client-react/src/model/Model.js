@@ -46,12 +46,12 @@ class Model {
     }
 
     selectItem(nodeId) {
-        let oldNode = this._getTreeNode(this.selectedNodeId);
+        let oldNode = this.getSelectedTreeNode();
         if (oldNode) {
             oldNode.selected = false;
         }
         this.selectedNodeId = nodeId;
-        let newNode = this._getTreeNode(this.selectedNodeId);
+        let newNode = this.getSelectedTreeNode();
         if (newNode) {
             newNode.selected = true;
         }
@@ -80,6 +80,10 @@ class Model {
 
     getSelectedNodeId() {
         return this.selectedNodeId;
+    }
+
+    getSelectedTreeNode() {
+        return this._getTreeNode(this.selectedNodeId);
     }
 }
 

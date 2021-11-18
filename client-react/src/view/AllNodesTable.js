@@ -37,13 +37,9 @@ export default function AllNodesTable(props) {
         );
     }
 
-    function onRefreshClicked() {
-        handler(Events.onRefreshAllNodes);
-    }
-
     return (
         <div className="form-container">
-            <button onClick={onRefreshClicked}>Refresh</button>
+            <button onClick={() => handler(Events.onRefreshAllNodes)}>Refresh</button>
             {result}
         </div>
     );

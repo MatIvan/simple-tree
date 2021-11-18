@@ -4,6 +4,7 @@ import TreeRoot from "./view/TreeRoot";
 import AllNodesTable from "./view/AllNodesTable"
 import SelectedNodeForm from "./view/SelectedNodeForm";
 import UIPanel from "./view/UIPanel";
+import PopupEditor from "./view/PopupEditor";
 
 function App() {
 
@@ -18,6 +19,9 @@ function App() {
 
   const [uiPanelState, setUIPanelState] = React.useState(Controller.uiPanelState);
   Controller.onUIPanelStateChanged = setUIPanelState;
+
+  const [popupEditorState, setPopupEditorState] = React.useState(Controller.popupEditorState);
+  Controller.onPopupEditorStateChanged = setPopupEditorState;
 
   return (
     <div>
@@ -39,6 +43,8 @@ function App() {
       <br />
       <b>All nodes:</b>
       <AllNodesTable allNodesTableState={allNodesTableState} handler={Controller.getHandler()} />
+
+      {popupEditorState.visible ? <PopupEditor popupEditorState={popupEditorState} handler={Controller.getHandler()} /> : null}
     </div>
   );
 }
