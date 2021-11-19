@@ -1,10 +1,38 @@
 import React from "react";
 import { Events } from "../controller/Events";
 
+function _validForText(node) {
+    return {
+        id: _nullToDefault(node.id, "null"),
+        parentId: _nullToDefault(node.parentId, "null"),
+        name: _nullToDefault(node.name, "node name"),
+        ip: _nullToDefault(node.ip, "0.0.0.0"),
+        port: _nullToDefault(node.port, "0"),
+    }
+}
+
+function _nullToDefault(val, def) {
+    return (val === undefined || val === null) ? def : val;
+}
+
+function _emptyToNull(val) {
+    return (val === "null" || val === "") ? null : val
+}
+
+function _validForObject(node) {
+    return {
+        id: _emptyToNull(node.id),
+        parentId: _emptyToNull(node.parentId),
+        name: _emptyToNull(node.name),
+        ip: _emptyToNull(node.ip),
+        port: _emptyToNull(node.port),
+    }
+}
+
 export default function PopupEditor(props) {
     const { node } = props.popupEditorState;
     const handler = props.handler;
-    const [stateNode, setStateNode] = React.useState(() => { return node; });
+    const [stateNode, setStateNode] = React.useState(() => { return _validForText(node); });
 
     function _input(e) {
         const { name, value } = e.target;
@@ -44,7 +72,7 @@ export default function PopupEditor(props) {
 
                 <div className="PopupEditor-ui">
                     <button
-                        onClick={() => handler(Events.onPopupEditorSaveClicked, stateNode)}
+                        onClick={() => handler(Events.onPopupEditorSaveClicked, _validForObject(stateNode))}
                         className="UIPanelContainer_child">Save</button>
                     <button
                         onClick={() => handler(Events.onPopupEditorCancelClicked)}

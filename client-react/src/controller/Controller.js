@@ -5,6 +5,10 @@ import { Events } from "./Events";
 class Controller {
 
     constructor() {
+        this._reset();
+    }
+
+    _reset() {
         this._updateAllNodesTableState();
         this._updateTreeRootState();
         this._updateSelectedNodeFormState();
@@ -43,11 +47,11 @@ class Controller {
                 break;
 
             case Events.onAddRootNodeClicked:
-                this._setPopupEditorState(true, name, this._getNodeForRootAdd());
+                this._setPopupEditorState(true, name, {});
                 break;
 
             case Events.onAddNodeClicked:
-                this._setPopupEditorState(true, name, this._getNodeForChildAdd());
+                this._setPopupEditorState(true, name, { parentId: Model.getSelectedNodeId() });
                 break;
 
             case Events.onEditNodeClicked:
@@ -59,7 +63,17 @@ class Controller {
                 break;
 
             case Events.onPopupEditorSaveClicked:
-                throw new Error("TODO onPopupEditorSaveClicked");
+
+                if (this.popupEditorState.event === Events.onEditNodeClicked) {
+                    TreeNodeService.updateNode(data)
+                        .then(() => { this._reset() })
+                        .catch((error) => { throw new Error("Save node error:" + error.toString()); });
+
+                } else if (this.popupEditorState.event === Events.onAddNodeClicked || this.popupEditorState.event === Events.onAddRootNodeClicked) {
+                    TreeNodeService.addNode(data)
+                        .then(() => { this._reset() })
+                        .catch((error) => { throw new Error("Add node error:" + error.toString()); });
+                }
                 break;
 
             case Events.onPopupEditorCancelClicked:
@@ -74,23 +88,6 @@ class Controller {
 
     getHandler() {
         return (name, data) => { this._handler(name, data); }
-    }
-
-    _getNodeForRootAdd() {
-        return {
-            id: "",
-            parentId: "",
-            name: "name",
-            ip: "ip",
-            port: "port"
-        }
-    }
-
-    _getNodeForChildAdd() {
-        return {
-            ...this._getNodeForRootAdd(),
-            parentId: Model.getSelectedNodeId(),
-        }
     }
 
     // ##### AllNodesTableState
