@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  demo-tree:
+    build: .
+    ports:
+      - 8181:8181
+    volumes:
+      - ./logs:/app/logs
