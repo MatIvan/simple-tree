@@ -9,12 +9,29 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td {
+    border: 1px solid gray;
+    padding: 2px 12px;
+}
+
 td>input {
     width: 100%;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
+
+#root {
+    width: 600px;
+    margin: auto;
+}
+
+.App {}
 
 .form-container {
     border: 1px solid black;
@@ -67,10 +84,11 @@ td>input {
     overflow: hidden;
     position: fixed;
     top: 0px;
+    left: 0px;
 }
 
 .PopupEditor-content {
-    width: 30%;
+    width: 260px;
     margin: 20% auto 0px auto;
     box-shadow: 0px 0px 10px #000;
 }

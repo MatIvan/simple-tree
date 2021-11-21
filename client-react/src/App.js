@@ -24,7 +24,7 @@ function App() {
   Controller.onPopupEditorStateChanged = setPopupEditorState;
 
   return (
-    <div>
+    <div className="App">
       <h1>Client React Tree</h1>
       <div className="TreeAndSelectionContainer">
         <div className="TreeAndSelectionContainer_child">

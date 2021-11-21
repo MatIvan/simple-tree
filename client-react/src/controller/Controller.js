@@ -59,7 +59,9 @@ class Controller {
                 break;
 
             case Events.onDeleteNodeClicked:
-                throw new Error("TODO onDeleteNodeClicked");
+                TreeNodeService.deleteNode(Model.getSelectedNodeId())
+                    .then(() => { this._reset() })
+                    .catch((error) => { throw new Error("Delete node error:" + error.toString()); });
                 break;
 
             case Events.onPopupEditorSaveClicked:
