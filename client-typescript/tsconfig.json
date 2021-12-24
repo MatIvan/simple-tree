@@ -1,10 +1,12 @@
 {
-    "compilerOptions": {
-        "outDir": "./target/",
-        "noImplicitAny": true,
-        "module": "es6",
-        "target": "es5",
-        "moduleResolution": "node",
-        "sourceMap": true,
-    }
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
+    "allowJs": false
+  },
+  "files": [
+    "src/index.ts"
+  ]
 }

@@ -1,4 +1,4 @@
-.vscode/
-.npm/
-node_modules/
-target
+node_modules
+.vscode
+dist
+

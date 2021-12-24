@@ -1,105 +1,78 @@
+import Properties from "../../properties"
 import { TreeNode } from "../entity/TreeNode";
 
 const REST_GET = "GET";
 const REST_PUT = "PUT";
 const REST_POST = "POST";
 const REST_DELETE = "DELETE";
+const HTTP_OK = 200;
+const HTTP_REDIRECT = 300;
 
-class TreeNodeServiceImpl {
+const BASE_URL = Properties.SERVER_URL;
 
-    private _baseUrl = "http://localhost:8181/v1/nodes/";
-
-    constructor() {
-
-    }
-
+export default {
     getAllNodes(): Promise<Array<TreeNode>> {
-        return this._rest("", this._getRestOptions(REST_GET));
-    }
+        return _rest("", _getRestOptions(REST_GET));
+    },
 
     getRootNodes(): Promise<Array<TreeNode>> {
-        return this._rest("root", this._getRestOptions(REST_GET));
-    }
+        return _rest("root", _getRestOptions(REST_GET));
+    },
 
     getNode(nodeId: number): Promise<TreeNode> {
-        return this._rest(nodeId.toString(), this._getRestOptions(REST_GET))
-            .then(this._toNode);
-    }
+        return _rest(nodeId.toString(), _getRestOptions(REST_GET));
+    },
 
     getChildren(parentId: number): Promise<Array<TreeNode>> {
-        return this._rest(parentId.toString() + "/children", this._getRestOptions(REST_GET));
-    }
+        return _rest(parentId.toString() + "/children", _getRestOptions(REST_GET));
+    },
 
     updateNode(node: TreeNode): Promise<TreeNode> {
-        return this._rest(node.id.toString(), this._getRestOptions(REST_PUT, node))
-            .then(this._toNode);
-    }
+        return _rest(node.id.toString(), _getRestOptions(REST_PUT, node));
+    },
 
     addNode(node: TreeNode): Promise<TreeNode> {
-        return this._rest("", this._getRestOptions(REST_POST, node))
-            .then(this._toNode);
-    }
+        return _rest("", _getRestOptions(REST_POST, node));
+    },
 
     deleteNode(nodeId: number): Promise<void> {
-        return this._rest(nodeId.toString(), this._getRestOptions(REST_DELETE));
-    }
-
-    private _rest(servlet: string, options: RequestInit): Promise<any> {
-        let requestUrl = this._baseUrl + servlet;
-        console.log(">>> ", requestUrl, options);
-        return fetch(requestUrl, options)
-            .then(this._status)
-            .then(this._json)
-            .then(this._log);
-    }
-
-    private _getRestOptions(type: string, body?: any): RequestInit {
-        let options: RequestInit = {
-            method: type,                   // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors',                   // no-cors, *cors, same-origin
-            cache: 'no-cache',              // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'omit',            // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            redirect: 'follow',             // manual, *follow, error
-            referrerPolicy: 'no-referrer',  // no-referrer, *client
-        };
-
-        if (body) {
-            options.body = JSON.stringify(body);
-        }
-
-        return options;
-    }
-
-    private _status(response: Response): Promise<Response> {
-        if (response.status >= 200 && response.status < 300) {
-            return Promise.resolve(response)
-        } else {
-            return Promise.reject(new Error(response.statusText))
-        }
-    }
-
-    private _json(response: Response): Promise<any> {
-        return response.text().then(function (text: string) {
-            return text ? JSON.parse(text) : {}
-        });
-    }
-
-    private _log(obj: any): Promise<any> {
-        console.log("<<< ", obj);
-        return Promise.resolve(obj);
-    }
-
-    private _toNode(obj: any): Promise<TreeNode> {
-        return Promise.resolve(<TreeNode>obj);
-    }
-
-    private _toArrayNode(obj: any): Promise<Array<TreeNode>> {
-        return Promise.resolve(<Array<TreeNode>>obj);
-    }
+        return _rest(nodeId.toString(), _getRestOptions(REST_DELETE));
+    },
 }
 
-export const TreeNodeService = new TreeNodeServiceImpl();
+let _rest = function (servlet: string, options: RequestInit): Promise<any> {
+    let requestUrl = BASE_URL + servlet;
+    console.log(">>> ", requestUrl, options);
+    return fetch(requestUrl, options)
+        .then(_status)
+        .then(_json);
+}
+
+let _getRestOptions = function (type: string, body?: any): RequestInit {
+    let options: RequestInit = {
+        method: type,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+    };
+
+    if (body) {
+        options.body = JSON.stringify(body);
+    }
+
+    return options;
+}
+
+let _status = function (response: Response): Promise<Response> {
+    if (response.status >= HTTP_OK && response.status < HTTP_REDIRECT) {
+        return Promise.resolve(response)
+    }
+    return Promise.reject(new Error(response.statusText))
+}
+
+let _json = function (response: Response): Promise<any> {
+    return response.text().then(function (text: string) {
+        return Promise.resolve(text ? JSON.parse(text) : {});
+    });
+}
