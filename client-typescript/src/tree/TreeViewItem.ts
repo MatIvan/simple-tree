@@ -1,4 +1,3 @@
-import { TreeNode } from "../entity/TreeNode";
 import { TreeItem } from "./TreeItem";
 
 const STYLE = {
@@ -9,101 +8,78 @@ const STYLE = {
     HIDDEN: "hidden",
 }
 
-export type OnNodeEvent = (nodeId: number) => void;
-
 export class TreeViewItem {
 
-    private _item: TreeItem;
     private _panel: HTMLDivElement;
-    private _nodePanel: HTMLDivElement;
+    private _itemPanel: HTMLDivElement;
     private _childrenPanel: HTMLDivElement;
     private _btn: HTMLButtonElement;
     private _nameLabel: HTMLDivElement;
 
-    private _onExpand: OnNodeEvent;
-    private _onCollapse: OnNodeEvent;
-    private _onClick: OnNodeEvent;
+    private _onClick: () => void;
+    private _onBtnClick: () => void;
 
-    constructor(node: TreeNode) {
-        this._item = {
-            node: node,
-            expand: false,
-            selected: false,
-            children: [],
-        }
-
+    constructor(item: TreeItem) {
         this._panel = document.createElement("div") as HTMLDivElement;
         this._panel.classList.add(STYLE.MAIN);
 
-        this._nodePanel = document.createElement("div") as HTMLDivElement;
-        this._nodePanel.classList.add(STYLE.NODE_PANEL);
+        this._createItemPanel(item.selected);
+        this._createBtn(item.expand);
+        this._createLabel(item.node.name);
+        this._createChildrenPanel(item.expand);
 
-        this._btn = document.createElement("button");
-        this._btn.innerText = "+";
-        this._btn.onclick = () => {
-            this._toggleExpand();
-        };
-
-        this._nameLabel = document.createElement("div");
-        this._nameLabel.innerText = node.name;
-        this._nameLabel.onclick = () => {
-            this._onClick(node.id);
-        };
-
-        this._nodePanel.appendChild(this._btn);
-        this._nodePanel.appendChild(this._nameLabel);
-
-        this._childrenPanel = document.createElement("div") as HTMLDivElement;
-        this._childrenPanel.classList.add(STYLE.CHILD_PANEL);
-        this._childrenPanel.classList.add(STYLE.HIDDEN);
-
-        this._panel.appendChild(this._nodePanel);
+        this._itemPanel.appendChild(this._btn);
+        this._itemPanel.appendChild(this._nameLabel);
+        this._panel.appendChild(this._itemPanel);
         this._panel.appendChild(this._childrenPanel);
     }
 
-    private _toggleExpand() {
-        if (this._item.expand) {
-            this._item.expand = false;
-            this._btn.innerText = "+";
-            this._setStyle(this._childrenPanel, STYLE.HIDDEN);
-            this._onCollapse(this._item.node.id);
-        } else {
-            this._item.expand = true;
-            this._btn.innerText = "-";
-            this._childrenPanel.classList.remove(STYLE.HIDDEN);
-            this._onExpand(this._item.node.id);
+    private _createBtn(isExpand: boolean) {
+        this._btn = document.createElement("button");
+        this._btn.innerText = isExpand ? "-" : "+";
+        this._btn.onclick = () => {
+            this._onBtnClick();
+        };
+    }
+
+    private _createLabel(name: string) {
+        this._nameLabel = document.createElement("div");
+        this._nameLabel.innerText = name;
+        this._nameLabel.onclick = () => {
+            this._onClick();
+        };
+    }
+
+    private _createItemPanel(isSelected: boolean) {
+        this._itemPanel = document.createElement("div") as HTMLDivElement;
+        this._itemPanel.classList.add(STYLE.NODE_PANEL);
+        if (isSelected) {
+            this._itemPanel.classList.add(STYLE.SELECTED);
         }
     }
 
-    setOnExpand(onExpand: OnNodeEvent) {
-        this._onExpand = onExpand;
+    private _createChildrenPanel(isExpand: boolean) {
+        this._childrenPanel = document.createElement("div") as HTMLDivElement;
+        this._childrenPanel.classList.add(STYLE.CHILD_PANEL);
+        if (!isExpand) {
+            this._childrenPanel.classList.add(STYLE.HIDDEN);
+        }
     }
 
-    setOnCollapse(onCollapse: OnNodeEvent) {
-        this._onCollapse = onCollapse;
-    }
-
-    setOnClick(onClick: OnNodeEvent) {
+    setOnClick(onClick: () => void) {
         this._onClick = onClick;
     }
 
-    select(isSelected: boolean) {
-        this._item.selected = isSelected;
-        if (isSelected) {
-            this._nodePanel.classList.remove(STYLE.SELECTED);
-        } else {
-            this._setStyle(this._nodePanel, STYLE.SELECTED);
-        }
-    }
-
-    private _setStyle(element: HTMLElement, style: string) {
-        if (!element.classList.contains(style)) {
-            element.classList.add(style);
-        }
+    setOnBtnClick(onBtnClick: () => void) {
+        this._onBtnClick = onBtnClick;
     }
 
     getElement(): HTMLElement {
         return this._panel;
+    }
+
+    getChildrenContainer(): HTMLElement {
+        return this._childrenPanel;
     }
 }
 
