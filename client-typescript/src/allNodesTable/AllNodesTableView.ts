@@ -5,7 +5,7 @@ const STYLE = {
     MAIN: "AllNodesTableView",
 }
 
-export default class {
+export class AllNodesTableView {
 
     private _table: HTMLTableElement;
 

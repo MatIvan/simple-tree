@@ -1,8 +1,8 @@
 import { TreeNode } from "../entity/TreeNode";
 import TreeNodeService from "../service/TreeNodeService";
-import AllNodesTableView from "./AllNodesTableView";
+import { AllNodesTableView } from "./AllNodesTableView";
 
-export default class {
+export class AllNodesTablePresenter {
 
     private _view: AllNodesTableView;
 

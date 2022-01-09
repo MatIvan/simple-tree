@@ -8,6 +8,7 @@ export class TreePresenter {
 
     private _view: TreeView;
     private _model: TreeModel;
+    private _onSelect: (nodeId: number) => void;
 
     constructor(view: TreeView) {
         this._view = view;
@@ -16,6 +17,7 @@ export class TreePresenter {
         this._view.setOnClick((item: TreeItem) => {
             this._model.select(item.node);
             this._view.draw(this._model.getRoots());
+            this._onSelect(item.node.id);
         });
         this._view.setOnBtnClick((item: TreeItem) => {
             let isExpand = this._model.toggleExpand(item.node);
@@ -36,5 +38,9 @@ export class TreePresenter {
                 nodes.forEach(node => this._model.add(node));
                 this._view.draw(this._model.getRoots());
             });
+    }
+
+    setOnSelect(onSelect: (nodeId: number) => void) {
+        this._onSelect = onSelect;
     }
 }
