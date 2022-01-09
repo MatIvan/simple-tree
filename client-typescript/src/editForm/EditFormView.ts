@@ -18,10 +18,16 @@ export class EditFormView {
     private _port: HTMLInputElement;
 
     private _saveBtn: HTMLButtonElement;
+    private _deleteBtn: HTMLButtonElement;
+    private _addBtn: HTMLButtonElement;
+
     private _onSaveClick: (node: TreeNode) => void;
+    private _onDeleteClick: (node: TreeNode) => void;
+    private _onAddClick: (node: TreeNode) => void;
 
     constructor() {
         this._createUI();
+        this._createButtons();
         this._createTable();
     }
 
@@ -34,19 +40,44 @@ export class EditFormView {
 
         this._id.disabled = true;
         this._parentId.disabled = true;
+    }
 
+    private _createButtons() {
         this._saveBtn = document.createElement("button") as HTMLButtonElement;
         this._saveBtn.innerText = "Save";
         this._saveBtn.onclick = () => {
-            let node: TreeNode = {
-                id: Number(this._id.value),
-                parentId: Number(this._parentId.value),
-                name: this._name.value,
-                ip: this._ip.value,
-                port: Number(this._port.value),
-            };
-            this._onSaveClick(node);
+            this._onSaveClick(this._getNode());
         };
+
+        this._deleteBtn = document.createElement("button") as HTMLButtonElement;
+        this._deleteBtn.innerText = "Delete";
+        this._deleteBtn.onclick = () => {
+            this._onDeleteClick(this._getNode());
+        };
+
+        this._addBtn = document.createElement("button") as HTMLButtonElement;
+        this._addBtn.innerText = "Add";
+        this._addBtn.onclick = () => {
+            this._onAddClick(this._getNode());
+        };
+    }
+
+    private _getNode(): TreeNode {
+        return {
+            id: this._getNumber(this._id.value),
+            parentId: this._getNumber(this._parentId.value),
+            name: this._name.value,
+            ip: this._ip.value,
+            port: Number(this._port.value),
+        };
+    }
+
+    private _getNumber(value: string): number {
+        let num = Number(value);
+        if (!num && num !== 0) {
+            num = null;
+        }
+        return num;
     }
 
     private _createTable() {
@@ -62,6 +93,8 @@ export class EditFormView {
         let cell = this._table.insertRow().insertCell();
         cell.colSpan = 2;
         cell.classList.add(STYLE.btnCell);
+        cell.appendChild(this._addBtn);
+        cell.appendChild(this._deleteBtn);
         cell.appendChild(this._saveBtn);
     }
 
@@ -87,5 +120,13 @@ export class EditFormView {
 
     setOnSaveClick(onSaveClick: (node: TreeNode) => void) {
         this._onSaveClick = onSaveClick;
+    }
+
+    setOnDeleteClick(onDeleteClick: (node: TreeNode) => void) {
+        this._onDeleteClick = onDeleteClick;
+    }
+
+    setOnAddClick(onAddClick: (node: TreeNode) => void) {
+        this._onAddClick = onAddClick;
     }
 }

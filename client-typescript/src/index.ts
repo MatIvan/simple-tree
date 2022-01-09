@@ -29,3 +29,8 @@ editFormPresenter.setOnUpdate((node) => {
     treePresenter.update(node);
     allNodesTablePresenter.update(node);
 });
+
+editFormPresenter.setOnDelete(node => {
+    treePresenter.delete(node);
+    allNodesTablePresenter.update(node);
+});

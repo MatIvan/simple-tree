@@ -36,7 +36,7 @@ export default {
     },
 
     deleteNode(nodeId: number): Promise<void> {
-        return _rest(nodeId.toString(), _getRestOptions(REST_DELETE));
+        return _rest(String(nodeId), _getRestOptions(REST_DELETE));
     },
 }
 

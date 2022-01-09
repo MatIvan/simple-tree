@@ -53,4 +53,9 @@ export class TreePresenter {
         this._view.draw(this._model.getRoots());
         this._onSelect(nodeId);
     }
+
+    delete(node: TreeNode) {
+        this._model.remove(node);
+        this._view.draw(this._model.getRoots());
+    }
 }

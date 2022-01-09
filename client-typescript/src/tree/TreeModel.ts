@@ -45,7 +45,7 @@ export class TreeModel {
             return;
         }
         item.children.forEach(val => {
-            this.remove(item.node);
+            this.remove(val.node);
         });
         this._nodesMap.delete(node.id);
 
