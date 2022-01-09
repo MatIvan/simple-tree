@@ -10,7 +10,7 @@ export class AllNodesTablePresenter {
         this._view = view;
     }
 
-    update() {
+    update(node?: TreeNode) {
         TreeNodeService.getAllNodes()
             .then((data) => {
                 this._view.setData(data);

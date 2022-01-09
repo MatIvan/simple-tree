@@ -22,6 +22,7 @@ export class TreeModel {
     add(node: TreeNode): void {
         let item = this._nodesMap.get(node.id);
         if (item) {
+            this._update(node);
             return;
         }
         item = {
@@ -56,9 +57,9 @@ export class TreeModel {
 
     }
 
-    select(node: TreeNode): void {
+    select(nodeId: number): void {
         this._nodesMap.forEach(item => {
-            item.selected = (item.node.id === node.id);
+            item.selected = (item.node.id === nodeId);
         });
     }
 
@@ -71,4 +72,8 @@ export class TreeModel {
         return item.expand;
     }
 
+    private _update(node: TreeNode) {
+        let item = this._nodesMap.get(node.id);
+        item.node = node;
+    }
 }

@@ -25,7 +25,7 @@ treePresenter.setOnSelect(nodeId => {
 });
 treePresenter.update();
 
-editFormPresenter.setOnupdate(() => {
-    treePresenter.update();
-    allNodesTablePresenter.update();
+editFormPresenter.setOnUpdate((node) => {
+    treePresenter.update(node);
+    allNodesTablePresenter.update(node);
 });

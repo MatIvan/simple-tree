@@ -5,7 +5,7 @@ import { EditFormView } from "./EditFormView";
 export class EditFormPresenter {
 
     private _view: EditFormView;
-    private _onUpdate: () => void;
+    private _onUpdate: (node: TreeNode) => void;
 
     constructor(view: EditFormView) {
         this._view = view;
@@ -24,19 +24,19 @@ export class EditFormPresenter {
         });
     }
 
-    setOnupdate(onUpdate: () => void) {
+    setOnUpdate(onUpdate: (node: TreeNode) => void) {
         this._onUpdate = onUpdate;
     }
 
     private _update(node: TreeNode) {
-        TreeNodeService.updateNode(node).then(() => {
-            this._onUpdate();
+        TreeNodeService.updateNode(node).then((updatedNode) => {
+            this._onUpdate(updatedNode);
         });
     }
 
     private _add(node: TreeNode) {
-        TreeNodeService.addNode(node).then(() => {
-            this._onUpdate();
+        TreeNodeService.addNode(node).then((newNode) => {
+            this._onUpdate(newNode);
         });
     }
 }

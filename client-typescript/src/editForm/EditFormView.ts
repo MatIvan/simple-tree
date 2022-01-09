@@ -43,7 +43,7 @@ export class EditFormView {
                 parentId: Number(this._parentId.value),
                 name: this._name.value,
                 ip: this._ip.value,
-                port: Number(this._port),
+                port: Number(this._port.value),
             };
             this._onSaveClick(node);
         };
@@ -59,9 +59,10 @@ export class EditFormView {
         this._createRow("ip", this._ip);
         this._createRow("port", this._port);
 
-        let row = this._table.insertRow();
-        row.classList.add(STYLE.btnCell);
-        row.insertCell().appendChild(this._saveBtn);
+        let cell = this._table.insertRow().insertCell();
+        cell.colSpan = 2;
+        cell.classList.add(STYLE.btnCell);
+        cell.appendChild(this._saveBtn);
     }
 
     private _createRow(label: string, element: HTMLElement) {

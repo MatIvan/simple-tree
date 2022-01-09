@@ -15,10 +15,9 @@ export class TreePresenter {
         this._model = new TreeModel();
 
         this._view.setOnClick((item: TreeItem) => {
-            this._model.select(item.node);
-            this._view.draw(this._model.getRoots());
-            this._onSelect(item.node.id);
+            this._select(item.node.id);
         });
+
         this._view.setOnBtnClick((item: TreeItem) => {
             let isExpand = this._model.toggleExpand(item.node);
             if (isExpand) {
@@ -32,7 +31,12 @@ export class TreePresenter {
         });
     }
 
-    update() {
+    update(node?: TreeNode) {
+        if (node) {
+            this._model.add(node);
+            this._view.draw(this._model.getRoots());
+            return;
+        }
         TreeNodeService.getRootNodes()
             .then((nodes: TreeNode[]) => {
                 nodes.forEach(node => this._model.add(node));
@@ -42,5 +46,11 @@ export class TreePresenter {
 
     setOnSelect(onSelect: (nodeId: number) => void) {
         this._onSelect = onSelect;
+    }
+
+    private _select(nodeId: number) {
+        this._model.select(nodeId);
+        this._view.draw(this._model.getRoots());
+        this._onSelect(nodeId);
     }
 }
